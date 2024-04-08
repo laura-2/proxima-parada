@@ -1,0 +1,7 @@
+@media screen and (max-width: 393px){
+    .info-texto{
+        font-size: 18px;
+        padding: 1em 1em 0.5em 1em;
+        word-break:keep-all;
+    }
+}

@@ -13,15 +13,17 @@ export default function Card({id, pais, cidade, date, nota, descricao}){
     }
     
     return(
-            <div className="bg-white rounded-xl my-5 w-1/2 shadow-2xl m-auto">
+            <div className="bg-white rounded-xl m-5 p-2 shadow-2xl break-keep">
                 <div className="text-center">
+                    <div className="h-8">
                 {!favoritesChecker(id) ? (
-                <img src={coracaoVazio} alt="Favorito" className="cursor-pointer h-7 absolute pt-2 right-80 pr-7" onClick={() => addToFavorites(id, pais, cidade, date, nota, descricao)}/>
+                <img src={coracaoVazio} alt="Favorito" className="cursor-pointer h-7 pt-2 absolute right-8" onClick={() => addToFavorites(id, pais, cidade, date, nota, descricao)}/>
             ) : (
-                <img src={coracaoPreenchido} alt="Favorito" className="cursor-pointer h-7 absolute pt-2 right-80 pr-7" onClick={() => removeFromFavorites(id, pais, cidade, date, nota, descricao)}/>
+                <img src={coracaoPreenchido} alt="Favorito" className="cursor-pointer h-7 pt-2 absolute right-8" onClick={() => removeFromFavorites(id, pais, cidade, date, nota, descricao)}/>
             )}
-                <div className="flex gap-3 justify-center">
-                <h3 className="text-center text-amber-500 font-bold m-1 text-xl p-3">{pais}</h3>
+            </div>
+                <div className="flex gap-3 justify-center items-center">
+                <h3 className="text-center text-amber-500 font-bold text-xl break-keep">{pais}</h3>
                 <div>
                 {paises
                     .filter((country) => country.nome === pais)
