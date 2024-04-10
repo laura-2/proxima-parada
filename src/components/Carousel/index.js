@@ -80,7 +80,7 @@ export default function Carousel(){
                     <div>
                         <div>
                             <h3 className="text-center text-amber-500 font-bold m-2 text-2xl break-keep">Talvez você se interesse por visitar...</h3>
-                            <div className="flex justify-center">
+                            <div className="flex justify-center items-center">
                             <h2 className="text-center text-white font-bold text-xl">{card.cidade} - {card.pais}</h2>
                             <img alt="paises" src={`https://flagsapi.com/${getCountryFlagUrl(card.pais)}/flat/64.png`} className="px-3"/>
                             </div>

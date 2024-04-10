@@ -45,45 +45,45 @@ export default function Cadastro(){
                     </div>
                 <Formik initialValues={{}} onSubmit={handleClick}>
                     <Form className="block">
-                    <div>
+                    <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">Nome Completo *</span>
-                                <Field type="text" onChange={(e)=> [setNome(e.target.value), setError("")]} value={nome} name="nome" placeholder="João Passos da Silva" className="border-2 border-solid border-black p-2 rounded-xl my-2" minLength="4"></Field>
+                                <Field type="text" onChange={(e)=> [setNome(e.target.value), setError("")]} value={nome} name="nome" placeholder="João Passos da Silva" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3" minLength="4"></Field>
                                 <ErrorMessage
                                 value={error}
                         component="span"
                         name="nome"
                         />
                                 </div>
-                                <div>
-                                <span className="text-black text-xl font-bold mr-12">E-mail</span>
-                                <Field type="email"  onChange={(e)=> [setEmail(e.target.value), setError("")]} value={email} name="email" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black p-2 rounded-xl my-2" required></Field>
+                                <div className="flex flex-col justify-center items-center">
+                                <span className="text-black text-xl font-bold">E-mail</span>
+                                <Field type="email"  onChange={(e)=> [setEmail(e.target.value), setError("")]} value={email} name="email" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3" required></Field>
                                 <ErrorMessage
                                 value={error}
                         component="span"
                         name="email"
                         />
                                 </div>
-                                <div>
+                                <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">Confirmar e-mail *</span>
-                                <Field type="email" onChange={(e)=> [setConfEmail(e.target.value), setError("")]} value={confEmail} name="confirmaEmail" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black p-2 rounded-xl my-2" required></Field>
+                                <Field type="email" onChange={(e)=> [setConfEmail(e.target.value), setError("")]} value={confEmail} name="confirmaEmail" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3" required></Field>
                                 
                                 <ErrorMessage
                                 value={error}
                         component="span"
                         name="confirmaEmail"
                         /></div>
-                                <div>
-                                <span className="text-black text-xl font-bold mr-12">Senha</span>
-                                <Field type="password"  onChange={(e)=> [setSenha(e.target.value), setError("")]} value={senha} name="senha" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2" required minLength="8"></Field>
+                                <div className="flex flex-col justify-center items-center">
+                                <span className="text-black text-xl font-bold">Senha</span>
+                                <Field type="password"  onChange={(e)=> [setSenha(e.target.value), setError("")]} value={senha} name="senha" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3" required minLength="8"></Field>
                                 <ErrorMessage
                                 value={error}
                         component="span"
                         name="senha"
                         />
                                 </div>
-                                <div>
+                                <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">Confirmar senha *</span>
-                                <Field type="password" onChange={(e)=> [setConfSenha(e.target.value), setError("")]} value={confSenha} name="confirmaSenha" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2" required minLength="8"></Field>
+                                <Field type="password" onChange={(e)=> [setConfSenha(e.target.value), setError("")]} value={confSenha} name="confirmaSenha" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3" required minLength="8"></Field>
                                 <ErrorMessage
                                 value={error}
                         component="span"

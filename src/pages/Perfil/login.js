@@ -51,9 +51,9 @@ export default function Login(){
                     </div>
                 <Formik initialValues={{}} onSubmit={handleClickLogin}>
                     <Form className="block">
-                                <div>
-                                <span className="text-black text-xl font-bold mr-12">E-mail</span>
-                                <Field type="email"  onChange={(e)=> [setEmail(e.target.value), setError("")]} value={email} name="email" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black py-2 px-5 rounded-xl my-2" required></Field>
+                                <div className="flex flex-col justify-center items-center">
+                                <span className="text-black text-xl font-bold">E-mail</span>
+                                <Field type="email"  onChange={(e)=> [setEmail(e.target.value), setError("")]} value={email} name="email" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black py-2 px-5 rounded-xl my-2 w-2/3" required></Field>
                                 <ErrorMessage
                                 value={error}
                         component="span"
@@ -61,9 +61,9 @@ export default function Login(){
                         />
                                 </div>
                                 
-                                <div>
-                                <span className="text-black text-xl font-bold mr-12">Senha</span>
-                                <Field type="password"  onChange={(e)=> [setSenha(e.target.value), setError("")]} value={senha} name="senha" placeholder="*******" className="border-2 border-solid border-black py-2 px-5 rounded-xl my-2" required minLength="8"></Field>
+                                <div className="flex flex-col justify-center items-center">
+                                <span className="text-black text-xl font-bold">Senha</span>
+                                <Field type="password"  onChange={(e)=> [setSenha(e.target.value), setError("")]} value={senha} name="senha" placeholder="*******" className="border-2 border-solid border-black py-2 px-5 rounded-xl my-2 w-2/3" required minLength="8"></Field>
                                 <ErrorMessage
                                 value={error}
                         component="span"
