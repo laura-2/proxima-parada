@@ -22,7 +22,7 @@ export default function Search(){
     return(
         <section className="block text-center bg-blue-950 py-5 break-keep">
             <h2 className="text-2xl text-white">Compartilhando experiências!</h2>
-            <p className="text-base text-white info-texto my-1 mb-5">
+            <p className="text-base text-white info-texto">
             Sabe aquele lugar que você está planejando em conhecer mas não sabe por onde começar?!<br/>
             Ou gostaria de uma ajudinha ou uma opinião?!<br/>
             Aqui você não está perdido, primeiro procure pelo seu destino e depois se amarre nos depoimentos.<br/>
