@@ -39,7 +39,8 @@ export default function Continente(){
     return (<>
         <Header />
         <div className="bg-blue-950 py-5">
-        {viagens.length !== 0 ? viagens.filter(continente => obterContinente(continente.pais) === nomeContinente) 
+        {viagens.filter(continente => obterContinente(continente.pais) === nomeContinente).length > 0 ?
+        viagens.filter(continente => obterContinente(continente.pais) === nomeContinente)
         .map((viagem, index) => {
                 return <Card {...viagem} key={index}/>  
             }) : <p className="text-white text-center text-xl">Sem registros de viagem</p>

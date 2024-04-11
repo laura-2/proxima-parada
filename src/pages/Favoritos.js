@@ -21,7 +21,7 @@ function Favoritos() {
   <div className="bg-blue-950 py-5">
     {favorites.length > 0 ? favorites.map((fav, index) => {
             return <Card {...fav} key={index} />
-        }) : <p className="text-white text-center text-xl">Você não adicionou nenhuma viagem aos favoritos!</p>
+        }) : <p className="text-white text-center text-xl px-1">Você não adicionou nenhuma viagem aos favoritos!</p>
          }
     </div>
     </>
