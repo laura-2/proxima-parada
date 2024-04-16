@@ -6,7 +6,6 @@ import { Rating } from "@mui/material";
 
 export default function Form(){
     const [post, setPost] = useState({})
-    const [value, setValue] = useState(2)
     const handleInput = (event) => {
         setPost({...post, [event.target.name]: event.target.value})
     }
@@ -38,14 +37,12 @@ export default function Form(){
          w-2/3 text-white self-center my-5 m-auto border-2 calendar-picker-indicator:hidden appearance-none"  onChange={handleInput} name="date" 
          required />
          <div className="flex flex-row w-2/3 gap-2 justify-center items-center my-1 mx-auto py-3">
-            <p className="">Classificação:</p>
+            <p className="text-white text-base">Classificação:</p>
          <Rating
-            name="simple-controlled"
-            value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue);
-            }}
+            name="nota"
+            onChange={handleInput}
             size="large"
+            style={{color: "white"}}
             />
          </div>
             <textarea className="font-thin block border-2 bg-transparent rounded-2xl w-2/3 h-40 p-3 m-auto text-white placeholder:bg-transparent text-white overflow-y-hidden" placeholder="Conte com mais detalhes sua experiência, por exemplo, o que mais gostou, dicas, preços..."

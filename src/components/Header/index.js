@@ -6,7 +6,6 @@ import fechar from "../../assets/remover.png";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/auth";
-import './header.css'
 
 const listItens = [
   { nomeEN: "Americas", nomePT: "AMÉRICA" },
@@ -25,16 +24,16 @@ export default function Header() {
     setMenuOpen(!menuOpen)
 }
   return (
-    <header className="flex justify-around items-center bg-white py-1 px-2 header">
+    <header className="flex justify-between items-center bg-white p-1">
       <Link to="/">
         <div className="flex gap-2 items-center">
-          <img src={logo} alt="Logo" className="logo" />
+          <img src={logo} alt="Logo" className="w-12 h-12" />
           <p>
-            <strong className="text-amber-500 uppercase texto-logo">Próxima Parada</strong>
+            <strong className="text-amber-500 uppercase text-xl">Próxima Parada</strong>
           </p>
         </div>
       </Link>
-      <div className="flex gap-2 continentes">
+      <div className="hidden lg:flex gap-2">
         {listItens.map((item) => {
           return (
             <Link
@@ -47,18 +46,18 @@ export default function Header() {
           );
         })}
       </div>
-      <div className="flex gap-2 icones">
+      <div className="hidden lg:flex gap-2">
         <Link to="/favoritos" className="flex gap-2 text-base text-blue-950">
           <img src={favoritos} alt="Logo" />
         </Link>
         <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="flex gap-2 text-base text-blue-950">
-          {user ? <p className="perfil-logo">{user.email}</p> : <img src={perfil} alt="Logo" />}
+          {user ? <p className="text-base">{user.email}</p> : <img src={perfil} alt="Logo" />}
         </Link>
       </div>
-      <img src={menuOpen ? fechar : menu} onClick={handleOpenMenu} alt="Menu" className="menu"/>
-      <div className={!menuOpen ? "menu-fechado" : "menu-aberto"}>
+      <img src={menuOpen ? fechar : menu} onClick={handleOpenMenu} alt="Menu" className="lg:hidden"/>
+      <div className={!menuOpen ? "hidden" : "block absolute top-14 bg-white p-2 right-0 w-1/3 z-10 lg:hidden"}>
         <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="text-base text-blue-950">
-          {user ? <p className="perfil-logo">{user.email}</p> : <p>Perfil</p>}
+          {user ? <p className="text-base">{user.email}</p> : <p>Perfil</p>}
         </Link>
         <Link to="/favoritos" className="text-base text-blue-950">
         Favoritos
