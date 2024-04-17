@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Favoritos from "./pages/Favoritos";
-import { FavoritosProvider } from "./context/Favoritos";
 import Continente from "./pages/Continente";
 import { AuthProvider } from "./context/auth";
 import Cadastro from "./pages/Perfil/cadastro";
@@ -36,60 +35,46 @@ root.render(
   <React.StrictMode>
     <GlobalStyle />
     <BrowserRouter>
-      <FavoritosProvider>
         <AuthProvider>
           <Routes>
             <Route
               path="/"
               element={
-                <FavoritosProvider>
                   <Home/>
-                </FavoritosProvider>
               }
             ></Route>
             <Route
               path="/favoritos"
               element={
-                <FavoritosProvider>
                   <Favoritos />
-                </FavoritosProvider>
               }
             ></Route>
             <Route
               path="/perfil/cadastro"
               element={
-                <FavoritosProvider>
                   <Cadastro />
-                </FavoritosProvider>
               }
             ></Route>
             <Route
               path="/perfil/login"
               element={
-                <FavoritosProvider>
                   <Login />
-                </FavoritosProvider>
               }
             ></Route>
             <Route
               path="/perfil/signout"
               element={
-                <FavoritosProvider>
                   <Signout />
-                </FavoritosProvider>
               }
             ></Route>
             <Route
               path="/continente/:nomeContinente"
               element={
-                <FavoritosProvider>
                   <Continente />
-                </FavoritosProvider>
               }
             ></Route>
           </Routes>
         </AuthProvider>
-      </FavoritosProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -2,9 +2,9 @@ import React, { useContext, useEffect } from "react";
 import Header from "../components/Header";
 import Card from "../components/Card"
 import { getFavoritos } from "../servicos/favoritos";
-import { FavoritosContext } from "../context/Favoritos";
+import { AuthContext } from "../context/auth";
 function Favoritos() {
-  const {favorites, setFavorites} = useContext(FavoritosContext)
+  const {favorites, setFavorites} = useContext(AuthContext)
  
     async function fetchFavoritos(){
     const favoritosAPI = await getFavoritos()
@@ -13,7 +13,7 @@ function Favoritos() {
 
     useEffect(()=>{
       fetchFavoritos()
-    })
+    },[])
 
 
   return (<>

@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import {paises} from "../../paises"
-import { FavoritosContext } from "../../context/Favoritos";
 import coracaoVazio from "../../assets/coracao.png"
 import coracaoPreenchido from "../../assets/coracaoPreenchido.png"
 import { Rating } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
+import { AuthContext } from "../../context/auth";
 
 export default function Card({id, pais, cidade, date, nota, descricao}){
-    const {favorites, addToFavorites, removeFromFavorites} = useContext(FavoritosContext)
+    const {favorites, addToFavorites, removeFromFavorites} = useContext(AuthContext)
     
     const favoritesChecker = (id)=>{
         const boolean = favorites.some((viagem)=> viagem.id === id)
@@ -39,7 +39,7 @@ export default function Card({id, pais, cidade, date, nota, descricao}){
                 <p className="text-blue-950 text-xl">{cidade}</p>
                     <p className="text-blue-950 text-base">{date} </p>
                     <Rating value={nota} 
-                    read-only
+                    read-only="true"
                     style={{color: "rgb(23 37 84)"}}
                     emptyIcon={<StarIcon style={{ opacity: 1 }}/>}/>
                     <p className="text-sm text-blue-950 italic">"{descricao}"</p>

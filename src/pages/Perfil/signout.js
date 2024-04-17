@@ -10,7 +10,7 @@ export default function Signout(){
     return(
         <>
         <Header/>
-                <button onClick={()=>[signout(), navigate("/")]} className="text-white bg-blue-950 p-3 rounded-xl my-5 mx-auto">Sair</button>
+                <button onClick={()=>[signout(), navigate("/")]} className="text-white bg-blue-950 p-3 rounded-xl m-5">Sair</button>
                 
         </>
     )

@@ -92,7 +92,7 @@ export default function Carousel(){
                             </div>
                             <p className="text-white text-base">{card.date}</p>
                             <Rating value={card.nota} 
-                    read-only
+                    read-only="true"
                     style={{color: "white"}}
                     emptyIcon={<StarIcon style={{ opacity: 1 }}/>}/>
                     </div>
@@ -116,7 +116,7 @@ export default function Carousel(){
                             <h2 className="text-white pt-1 text-xl">{card.cidade}</h2>
                             <p className="text-white text-xl">{card.date}</p>
                             <Rating value={card.nota} 
-                    read-only
+                    read-only="true"
                     style={{color: "white"}}
                     emptyIcon={<StarIcon style={{ opacity: 1 }}/>}/>
                         <p className="text-sm text-white first-letter:uppercase italic">"{card.descricao}"</p>

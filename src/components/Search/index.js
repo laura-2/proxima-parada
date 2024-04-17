@@ -34,7 +34,7 @@ export default function Search(){
             placeholder="Qual seu destino?" 
             onBlur={event=>{
                 const textWriting = event.target.value
-                const results = viagens.filter(pais => pais.pais.includes(textWriting))
+                const results = viagens.filter(pais => pais.pais.includes(textWriting) || pais.cidade.includes(textWriting))
                 setInputValue(results)
                 if(textWriting === ''){
                     results.length = 0;

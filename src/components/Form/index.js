@@ -2,23 +2,23 @@ import React, { useState} from "react";
 import {postViagens } from "../../servicos/viagens";
 import { paises } from "../../paises";
 import { Rating } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 
 export default function Form(){
     const [post, setPost] = useState({})
+    const { handleSubmit } = useForm();
     const handleInput = (event) => {
         setPost({...post, [event.target.name]: event.target.value})
     }
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const onSubmit = (event) => {
         const { id,pais, cidade, date, nota, descricao } = post;
         const datePt = new Date(date).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-        postViagens(id, pais, cidade, datePt, nota, descricao )
-        console.log(datePt)
+        postViagens(id, pais, cidade, datePt, nota, descricao)
         }
 
     return (
-        <form className="bg-blue-950 text-white pt-10 pb-1 break-keep" onSubmit={handleSubmit}>
+        <form className="bg-blue-950 text-white pt-10 pb-1 break-keep" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="pb-5 text-2xl mb-2 text-amber-500 text-center font-bold">Compartilhe sua experiência também!</h2>
             <div className="block text-center my-3">
             <select type="select" className="text-sm font-thin block bg-transparent border-2 rounded-2xl border-white p-3

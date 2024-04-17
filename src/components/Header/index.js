@@ -46,7 +46,7 @@ export default function Header() {
           );
         })}
       </div>
-      <div className="hidden lg:flex gap-2">
+      <div className="hidden lg:flex gap-2 items-center">
         <Link to="/favoritos" className="flex gap-2 text-base text-blue-950">
           <img src={favoritos} alt="Logo" />
         </Link>
@@ -55,9 +55,9 @@ export default function Header() {
         </Link>
       </div>
       <img src={menuOpen ? fechar : menu} onClick={handleOpenMenu} alt="Menu" className="lg:hidden"/>
-      <div className={!menuOpen ? "hidden" : "block absolute top-14 bg-white p-2 right-0 w-1/3 z-10 lg:hidden"}>
+      <div className={!menuOpen ? "hidden" : "block absolute top-14 bg-white p-2 right-0 w-auto z-10 lg:hidden"}>
         <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="text-base text-blue-950">
-          {user ? <p className="text-base">{user.email}</p> : <p>Perfil</p>}
+          {user ? <p className="text-sm">{user.email}</p> : <p>Perfil</p>}
         </Link>
         <Link to="/favoritos" className="text-base text-blue-950">
         Favoritos
