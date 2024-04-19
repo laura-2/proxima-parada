@@ -51,13 +51,13 @@ export default function Header() {
           <img src={favoritos} alt="Logo" />
         </Link>
         <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="flex gap-2 text-base text-blue-950">
-          {user ? <p className="text-base">{user.email}</p> : <img src={perfil} alt="Logo" />}
+          {user.email ? <p className="text-base">{user.email}</p> : <img src={perfil} alt="Logo" />}
         </Link>
       </div>
       <img src={menuOpen ? fechar : menu} onClick={handleOpenMenu} alt="Menu" className="lg:hidden"/>
       <div className={!menuOpen ? "hidden" : "block absolute top-14 bg-white p-2 right-0 w-auto z-10 lg:hidden"}>
-        <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="text-base text-blue-950">
-          {user ? <p className="text-sm">{user.email}</p> : <p>Perfil</p>}
+        <Link to={user.email ? "/perfil/signout" : "/perfil/cadastro"} className="text-base text-blue-950">
+          {user.email ? <p className="text-sm">{user.email}</p> : <p>Perfil</p>}
         </Link>
         <Link to="/favoritos" className="text-base text-blue-950">
         Favoritos

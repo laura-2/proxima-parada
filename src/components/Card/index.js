@@ -1,26 +1,22 @@
 import React, { useContext } from "react";
 import {paises} from "../../paises"
-import coracaoVazio from "../../assets/coracao.png"
-import coracaoPreenchido from "../../assets/coracaoPreenchido.png"
 import { Rating } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import { AuthContext } from "../../context/auth";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 export default function Card({id, pais, cidade, date, nota, descricao}){
-    const {favorites, addToFavorites, removeFromFavorites} = useContext(AuthContext)
-    
-    const favoritesChecker = (id)=>{
-        const boolean = favorites.some((viagem)=> viagem.id === id)
-        return boolean
-    }
+    const {user, addToFavorites, removeFromFavorites} = useContext(AuthContext)
+    const isFavorito = user.favorites.some(favorito => favorito.id === id);
+
     
     return(
             <div className="bg-slate-300 relative rounded-xl m-5 p-2 break-keep text-left md:w-2/3 md:my-5 md:mx-auto">
                     <div>
-                {!favoritesChecker(id) ? (
-                <img src={coracaoVazio} alt="Favorito" className="cursor-pointer top-2 absolute right-2 w-5" onClick={() => addToFavorites(id, pais, cidade, date, nota, descricao)}/>
+                {!isFavorito ? (
+                <FaRegHeart style={{color: "rgb(23 37 84)"}} className="cursor-pointer top-2 absolute right-2" onClick={() => addToFavorites({id, pais, cidade, date, nota, descricao})}/>
             ) : (
-                <img src={coracaoPreenchido} alt="Favorito" className="cursor-pointer top-2 absolute right-2 w-5" onClick={() => removeFromFavorites(id, pais, cidade, date, nota, descricao)}/>
+                <FaHeart style={{color: "rgb(23 37 84)"}} className="cursor-pointer top-2 absolute right-2" onClick={() => removeFromFavorites(id)}/>
             )}
                     </div>
                 <div className="flex justify-around items-center">

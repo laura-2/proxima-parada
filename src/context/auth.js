@@ -1,54 +1,45 @@
 import { createContext, useEffect, useState } from "react";
-import { deleteFavorito, postFavorito } from "../servicos/favoritos";
-import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({children})=> {
-    const [user, setUser]= useState();
-    const [favorites, setFavorites] = useState([]);
-    const navigate = useNavigate()
+    const [user, setUser]= useState({email: '', senha: '', favorites: []});
 
     useEffect(()=>{
-        const userToken = localStorage.getItem("user_token")
-        const usersStorage = localStorage.getItem("users_db")
-
-        if(userToken && usersStorage){
-            const hasUser = JSON.parse(usersStorage)?.filter(
-                (user)=> user.email === JSON.parse(userToken).email
-            )
-            if(hasUser) setUser(hasUser[0])
+        const userData = JSON.parse(localStorage.getItem("user_data"));
+        if(userData){
+            setUser(userData)
         }
     },[])
-
+    
     const addToFavorites =(viagem)=> {
-        const oldFavorites = [...favorites]
-        const newFavorites = oldFavorites.concat(viagem)
-        if (!favorites.includes(viagem)) {
-          setFavorites([...newFavorites, viagem]);
-          postFavorito(viagem)
-        }
-        alert("Você adicionou esta viagem a sua lista de favoritos!")
-        };
+       setUser(prevUser => {
+            const newFavorites = [...prevUser.favorites, viagem];
+            localStorage.setItem('user_data', JSON.stringify({...prevUser, favorites: newFavorites}));
+            alert("Você adicionou esta viagem a sua lista de favoritos!")
+            return {...prevUser, favorites: newFavorites}
+        });
+    }
       
       const removeFromFavorites =(id)=> {
-        const oldFavorites = [...favorites]
-        const newFavorites = oldFavorites.filter((viagem)=> viagem.id !== id)
-        setFavorites(newFavorites)
-        deleteFavorito(id)  
-      };
+        setUser(prevUser=> {
+        const newFavorites = prevUser.favorites.filter((viagem)=> viagem.id !== id)
+        localStorage.setItem("user_data", JSON.stringify({...prevUser, favorites: newFavorites}))
+        return {...prevUser, favorites: newFavorites} 
+      });
+    }
       const signin = (email, senha) =>{
         const userStorage = JSON.parse(localStorage.getItem("users_db"))
-        const hasUser = userStorage?.filter((user)=> user.email === email)
+        const hasUser = userStorage?.find((user)=> user.email === email)
 
-        if(hasUser?.length){
-            if(hasUser[0].email === email && hasUser[0].senha === senha){
-            const token = Math.random().toString(36).substring(2);
-            localStorage.setItem("user_token", JSON.stringify({email, token}))
-            setUser({email, senha})
+        if(hasUser){
+            if(hasUser.senha === senha){
+            const userData = {email, senha, favorites: hasUser.favorites}
+            localStorage.setItem("user_data", JSON.stringify({userData}))
+            setUser(userData)
             return;
 
         } else {
-            alert("Email ou senha incorretas")
+            alert("Senha incorreta!")
         }
         } else {
             alert("usuário não cadastrado")
@@ -56,27 +47,21 @@ export const AuthProvider = ({children})=> {
     }
     const signup = (email, senha) =>{
         const userStorage = JSON.parse(localStorage.getItem("users_db"))
-        const hasUser = userStorage?.filter((user)=> user.email === email)
-
-        if(hasUser?.length){
+        if(userStorage?.find((user)=>user.email === email)){
             return "Já tem uma conta com esse Email";
 
-        } 
-        let newUser;
-        if(userStorage){
-            newUser = [...userStorage, {email, senha}]
         } else {
-            newUser = [{email, senha}]
+            const newUser = {email, senha, favorites: []}
+            localStorage.setItem("users_db", JSON.stringify([...(userStorage || []), newUser]));
+            return;
         }
-        localStorage.setItem("users_db", JSON.stringify(newUser));
-        return;
     }
 
     const signout = () => {
-        setUser(null);
-        localStorage.removeItem("user_token")
+        localStorage.removeItem("user_data")
+        setUser({email: "", senha: "", favorites: []})
     }
-    return <AuthContext.Provider value={{user, signed: !!user, signin, signup, signout, favorites,setFavorites, addToFavorites, removeFromFavorites}}>
+    return <AuthContext.Provider value={{user, signed: !!user.email, signin, signup, signout, addToFavorites, removeFromFavorites}}>
         {children}
     </AuthContext.Provider>
 }
