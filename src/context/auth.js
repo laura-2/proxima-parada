@@ -33,9 +33,8 @@ export const AuthProvider = ({children})=> {
 
         if(hasUser){
             if(hasUser.senha === senha){
-            const userData = {email, senha, favorites: hasUser.favorites}
-            localStorage.setItem("user_data", JSON.stringify({userData}))
-            setUser(userData)
+            localStorage.setItem("user_data", JSON.stringify({email, senha, favorites: hasUser.favorites}))
+            setUser({email, senha, favorites: hasUser.favorites})
             return;
 
         } else {
@@ -57,7 +56,7 @@ export const AuthProvider = ({children})=> {
         }
     }
 
-    const signout = () => {
+    const signout = () => { 
         localStorage.removeItem("user_data")
         setUser({email: "", senha: "", favorites: []})
     }

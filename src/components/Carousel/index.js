@@ -85,7 +85,7 @@ export default function Carousel(){
                 .map((card, index) => (
                 <div className="bg-blue-950 rounded-lg my-1 mx-5 p-3 text-left md:w-2/3 md:my-0 md:mx-auto" key={index}>
                     <div>
-                            <h3 className="text-center text-amber-500 font-bold m-2 text-2xl break-keep">Talvez você se interesse por visitar...</h3>
+                            <h3 className="text-center text-amber-500 font-bold text-2xl break-keep">Talvez você se interesse por visitar...</h3>
                             <div className="flex justify-center items-center">
                             <h2 className="text-white text-xl font-bold">{card.cidade} - {card.pais}</h2>
                             <img alt="paises" src={`https://flagsapi.com/${getCountryFlagUrl(card.pais)}`} className="px-3"/>
@@ -108,9 +108,9 @@ export default function Carousel(){
                 .slice(1, 5)
                 .map((card, index) => (
                     <div className="bg-blue-950 shadow-2xl rounded-lg my-2 mx-5 p-3 text-left md:w-2/3 md:my-5 md:mx-auto" key={index}>
-                    <div>
+                    
                         <div className="flex justify-center items-center">
-                            <h3 className="text-amber-500 font-bold text-3xl">{card.pais}</h3>
+                            <h3 className="text-amber-500 font-bold text-3xl text-left">{card.pais}</h3>
                             <img alt="paises" src={`https://flagsapi.com/${getCountryFlagUrl(card.pais)}/flat/64.png`} className="px-3"/>
                             </div>
                             <h2 className="text-white pt-1 text-xl">{card.cidade}</h2>
@@ -120,7 +120,7 @@ export default function Carousel(){
                     style={{color: "white"}}
                     emptyIcon={<StarIcon style={{ opacity: 1 }}/>}/>
                         <p className="text-sm text-white first-letter:uppercase italic">"{card.descricao}"</p>
-                    </div>
+                   
                     </div>
                 ))}
         </div>
