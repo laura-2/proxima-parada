@@ -50,16 +50,16 @@ export default function Header() {
         <Link to="/favoritos" className="flex gap-2 text-base text-blue-950">
           <img src={favoritos} alt="Logo" />
         </Link>
-        <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="flex gap-2 text-base text-blue-950">
+        <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="flex text-base text-blue-950">
           {user.email ? <p className="text-base">{user.email}</p> : <img src={perfil} alt="Logo" />}
         </Link>
       </div>
       <img src={menuOpen ? fechar : menu} onClick={handleOpenMenu} alt="Menu" className="lg:hidden"/>
       <div className={!menuOpen ? "hidden" : "block absolute top-14 bg-white p-2 right-0 w-auto z-10 lg:hidden"}>
-        <Link to={user.email ? "/perfil/signout" : "/perfil/cadastro"} className="text-base text-blue-950">
-          {user.email ? <p className="text-sm">{user.email}</p> : <p>Perfil</p>}
+        <Link to={user.email ? "/perfil/signout" : "/perfil/cadastro"} className="text-blue-950 text-xl">
+          {user.email ? <p>{user.email}</p> : <p>Perfil</p>}
         </Link>
-        <Link to="/favoritos" className="text-base text-blue-950">
+        <Link to="/favoritos" className="text-xl text-blue-950">
         Favoritos
         </Link>
       {listItens.map((item) => {
@@ -67,7 +67,7 @@ export default function Header() {
           <Link
             to={`/continente/${item.nomeEN}`}
             key={item.nomePT}
-            className="text-base text-blue-950"
+            className="text-xl text-blue-950"
           >
             <li key={item}>{item.nomePT}</li>
           </Link>

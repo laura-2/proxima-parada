@@ -17,6 +17,7 @@
     "countries-api": "^2.0.2",
     "expo": "^50.0.14",
     "formik": "^2.4.5",
+    "mongoose": "^8.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",

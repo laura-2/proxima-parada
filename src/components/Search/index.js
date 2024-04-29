@@ -17,6 +17,15 @@ export default function Search(){
         setViagens(viagensDaAPI);
     }
 
+    function handleSearch (event){
+        const textWriting = event.target.value;
+        const results = viagens.filter(pais => pais.pais.includes(textWriting) || pais.cidade.includes(textWriting))
+        setInputValue(results)
+        if(textWriting === ''){
+            results.length = 0;
+        }
+    }
+
       
     return(
         <section className="block text-center bg-blue-950 py-5 break-keep">
@@ -30,16 +39,13 @@ export default function Search(){
             <div className="flex justify-center items-center gap-3">
             <input className="border-solid border-white border-2 rounded-3xl bg-white text-sm text-black text-left
             p-2 w-2/3 placeholder:text-black text-left bg-no-repeat bg-right md:w-1/3"
-            // style={{background: "url('../../assets/pin.png')"}} 
             placeholder="Qual seu destino?" 
-            onBlur={event=>{
-                const textWriting = event.target.value
-                const results = viagens.filter(pais => pais.pais.includes(textWriting) || pais.cidade.includes(textWriting))
-                setInputValue(results)
-                if(textWriting === ''){
-                    results.length = 0;
-                }
-            }}/>
+            onKeyDown={(e) => { 
+                if (e.key === "Enter") { 
+                    handleSearch(e) 
+                } 
+            }} 
+            onBlur={handleSearch}/>
             <button className="border-none"><img src={lupa} alt="Pesquisar"/></button>
             </div>
             <div className="bg-blue-950">

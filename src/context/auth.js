@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({children})=> {
-    const [user, setUser]= useState({email: '', senha: '', favorites: []});
+    const [user, setUser]= useState({id: '', nome: '', email: '', senha: '', favorites: [], posts: []});
 
     useEffect(()=>{
         const userData = JSON.parse(localStorage.getItem("user_data"));
@@ -15,7 +15,6 @@ export const AuthProvider = ({children})=> {
        setUser(prevUser => {
             const newFavorites = [...prevUser.favorites, viagem];
             localStorage.setItem('user_data', JSON.stringify({...prevUser, favorites: newFavorites}));
-            alert("Você adicionou esta viagem a sua lista de favoritos!")
             return {...prevUser, favorites: newFavorites}
         });
     }
@@ -34,8 +33,8 @@ export const AuthProvider = ({children})=> {
         if(hasUser){
             if(hasUser.senha === senha){
             localStorage.setItem("user_data", JSON.stringify({email, senha, favorites: hasUser.favorites}))
-            setUser({email, senha, favorites: hasUser.favorites})
-            return;
+            return setUser({email, senha, favorites: hasUser.favorites})
+            
 
         } else {
             alert("Senha incorreta!")
@@ -44,13 +43,13 @@ export const AuthProvider = ({children})=> {
             alert("usuário não cadastrado")
         }
     }
-    const signup = (email, senha) =>{
+    const signup = (nome, email, senha) =>{
         const userStorage = JSON.parse(localStorage.getItem("users_db"))
         if(userStorage?.find((user)=>user.email === email)){
-            return "Já tem uma conta com esse Email";
+            return alert("Já tem uma conta com esse Email");
 
         } else {
-            const newUser = {email, senha, favorites: []}
+            const newUser = {nome, email, senha, favorites: []}
             localStorage.setItem("users_db", JSON.stringify([...(userStorage || []), newUser]));
             return;
         }
@@ -58,7 +57,7 @@ export const AuthProvider = ({children})=> {
 
     const signout = () => { 
         localStorage.removeItem("user_data")
-        setUser({email: "", senha: "", favorites: []})
+        setUser({nome: "", email: "", senha: "", favorites: []})
     }
     return <AuthContext.Provider value={{user, signed: !!user.email, signin, signup, signout, addToFavorites, removeFromFavorites}}>
         {children}

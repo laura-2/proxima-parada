@@ -2,20 +2,37 @@ import React, { useState} from "react";
 import {postViagens } from "../../servicos/viagens";
 import { paises } from "../../paises";
 import { Rating } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 
 export default function Form(){
-    const [post, setPost] = useState({})
-    const { handleSubmit } = useForm();
-    const handleInput = (event) => {
-        setPost({...post, [event.target.name]: event.target.value})
-    }
-    const onSubmit = (event) => {
+    const { control, handleSubmit, reset, register, formState: {errors} } = useForm();
+    const onSubmit = (post) => {
         const { id,pais, cidade, date, nota, descricao } = post;
         const datePt = new Date(date).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
         postViagens(id, pais, cidade, datePt, nota, descricao)
+        reset()
         }
+
+    const registerOptions = {
+        pais: { required: "Selecione o país" },
+        cidade: { required: "Esse campo é obrigatório", minLength: {
+            value: 3,
+            message: "Cidade deve ter no mínimo 3 caracteres"
+        } },
+        date: {
+            required: "Esse campo é obrigatório"
+        },
+        nota: {
+            required: "Adicione uma classificação"
+        },
+        descricao: {
+            required: "Esse campo é obrigatório", minLength: {
+                value: 10,
+                message: "Mínimo 10 caracteres"
+            }
+        }
+        };
 
     return (
         <form className="bg-blue-950 text-white pt-10 pb-1 break-keep" onSubmit={handleSubmit(onSubmit)}>
@@ -23,30 +40,43 @@ export default function Form(){
             <div className="block text-center my-3">
             <select type="select" className="text-sm font-thin block bg-transparent border-2 rounded-2xl border-white p-3
          w-2/3 text-white self-center my-5 m-auto" placeholder="Selecione o país"
-            onChange={handleInput} name="pais" required>
+             name="pais" {...register("pais", registerOptions.pais)}>
                 {paises.map(country => (
                     <option key={country.nome} value={country.nome} className="text-white text-sm bg-blue-950">
                     {country.nome}
                     </option>
                 ))}
             </select>
+            <p className="text-amber-500 m-1">{errors?.pais && errors.pais.message}</p>
             <input type="text" className="text-sm block border-2 bg-transparent rounded-2xl border-white p-3
          w-2/3 text-white self-center my-5 m-auto" placeholder="Digite o nome da cidade"
-            onChange={handleInput} name="cidade" required/>
+             name="cidade" 
+            {...register("cidade", registerOptions.cidade)}/>
+            <p className="text-amber-500 m-1">{errors?.cidade && errors.cidade.message}</p>
             <input type="date" placeholder="dd/mm/aaaa" className="text-sm font-thin block bg-transparent rounded-2xl border-white p-3
-         w-2/3 text-white self-center my-5 m-auto border-2 calendar-picker-indicator:hidden appearance-none"  onChange={handleInput} name="date" 
-         required />
-         <div className="flex flex-row w-2/3 gap-2 justify-center items-center my-1 mx-auto py-3">
+         w-2/3 text-white self-center my-5 m-auto border-2 calendar-picker-indicator:hidden appearance-none"   name="date" 
+         {...register("date", registerOptions.date)} />
+         <p className="text-amber-500 m-1">{errors?.date && errors.date.message}</p>
+         <div className="flex flex-col w-2/3 justify-center items-center my-5 mx-auto">
             <p className="text-white text-base">Classificação:</p>
-         <Rating
-            name="nota"
-            onChange={handleInput}
-            size="large"
-            style={{color: "white"}}
-            />
+            <Controller
+                        name="nota"
+                        control={control}
+                        render={({ field }) => (
+                            <Rating
+                                {...field}
+                                name="nota"
+                                size="large"
+                                style={{ color: "white" }}
+                            />
+                        )}
+                    />
+            
          </div>
             <textarea className="font-thin block border-2 bg-transparent rounded-2xl w-2/3 h-40 p-3 m-auto text-white placeholder:bg-transparent text-white overflow-y-hidden" placeholder="Conte com mais detalhes sua experiência, por exemplo, o que mais gostou, dicas, preços..."
-            onChange={handleInput} name="descricao" type="text"></textarea>
+             name="descricao" type="text"
+            {...register("descricao", registerOptions.descricao)}></textarea>
+            <p className="text-amber-500 m-1">{errors?.descricao && errors.descricao.message}</p>
             <button type="submit" className="text-white bg-amber-500 p-3 my-5 rounded-xl uppercase"
             >Compartilhar</button>
             </div>
