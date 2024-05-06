@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { getViagens } from "../../servicos/viagens";
 import Card from "../Card";
 import lupa from "../../assets/lupa.png"
+import axios from "axios";
 
 
 export default function Search(){
     const [inputValue, setInputValue] = useState([]);
     const [viagens, setViagens] = useState([]);
 
-    useEffect(()=>{
-       fetchViagens()
-    }, [])
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get('http://localhost:5000/api/form');
+            setViagens(response.data);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
-    async function fetchViagens(){
-        const viagensDaAPI = await getViagens()
-        setViagens(viagensDaAPI);
-    }
 
     function handleSearch (event){
         const textWriting = event.target.value;
-        const results = viagens.filter(pais => pais.pais.includes(textWriting) || pais.cidade.includes(textWriting))
+        const results = viagens.filter(pais => pais.country.includes(textWriting) || pais.city.includes(textWriting))
         setInputValue(results)
         if(textWriting === ''){
             results.length = 0;
@@ -49,9 +54,9 @@ export default function Search(){
             <button className="border-none"><img src={lupa} alt="Pesquisar"/></button>
             </div>
             <div className="bg-blue-950">
-            {inputValue.map((viagem, index) => {
+            {inputValue.length > 0 ? inputValue.map((viagem, index) => {
                     return <Card {...viagem} key={index}/>
-                })}
+                }): null}
                 </div>
         </section>
     )

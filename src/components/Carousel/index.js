@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import axios from "axios";
-import { getViagens } from "../../servicos/viagens";
 import { paises } from "../../paises";
 import { Rating } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
@@ -14,14 +13,18 @@ import 'swiper/css/pagination';
 export default function Carousel(){
     const [flag, setFlag] = useState([])
     const [viagens, setViagens] = useState([]);
-    useEffect(()=>{
-        fetchViagens()
-     }, [])
- 
-     async function fetchViagens(){
-         const viagensDaAPI = await getViagens()
-         setViagens(viagensDaAPI);
-     }
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get('http://localhost:5000/api/form');
+            setViagens(response.data);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+    
+        fetchData();
+      }, []);
     useEffect(() => {
         axios.get('https://restcountries.com/v2/all')
         .then(response => {
@@ -80,49 +83,49 @@ export default function Carousel(){
                         ))}
                     </div>
                 </Swiper>
-                {viagens
-                .slice(6, 7)
+                {viagens.length > 0 ? viagens
+                .slice(0,1)
                 .map((card, index) => (
                 <div className="bg-blue-950 rounded-lg my-1 mx-5 p-3 text-left md:w-2/3 md:my-0 md:mx-auto" key={index}>
                     <div>
                             <h3 className="text-center text-amber-500 font-bold text-2xl break-keep">Talvez você se interesse por visitar...</h3>
                             <div className="flex justify-center items-center">
-                            <h2 className="text-white text-xl font-bold">{card.cidade} - {card.pais}</h2>
-                            <img alt="paises" src={`https://flagsapi.com/${getCountryFlagUrl(card.pais)}`} className="px-3"/>
+                            <h2 className="text-white text-xl font-bold">{card.city} - {card.country}</h2>
+                            <img alt="paises" src={`https://flagsapi.com/${getCountryFlagUrl(card.country)}`} className="px-3"/>
                             </div>
                             <p className="text-white text-base">{card.date}</p>
-                            <Rating value={card.nota} 
+                            <Rating value={card.rating} 
                     read-only="true"
                     style={{color: "white"}}
                     emptyIcon={<StarIcon style={{ opacity: 1 }}/>}/>
                     </div>
-                    <p className="text-sm text-white first-letter:uppercase italic">"{card.descricao}"</p>
+                    <p className="text-sm text-white first-letter:uppercase italic">"{card.description}"</p>
                 </div>
-                ))}
+                )): <p className="text-base text-white">Sem registros de viagens para compartilhar </p>}
       
 
             <h2 className="text-center bg-white text-amber-500 font-bold uppercase text-3xl my-5">Sugestões e depoimentos</h2>
           
             
-                {viagens
+                {viagens.length > 0 ? viagens
                 .slice(1, 5)
                 .map((card, index) => (
                     <div className="bg-blue-950 shadow-2xl rounded-lg my-2 mx-5 p-3 text-left md:w-2/3 md:my-5 md:mx-auto" key={index}>
                     
                         <div className="flex justify-center items-center">
-                            <h3 className="text-amber-500 font-bold text-3xl text-left">{card.pais}</h3>
-                            <img alt="paises" src={`https://flagsapi.com/${getCountryFlagUrl(card.pais)}/flat/64.png`} className="px-3"/>
+                            <h3 className="text-amber-500 font-bold text-3xl text-left">{card.country}</h3>
+                            <img alt="paises" src={`https://flagsapi.com/${getCountryFlagUrl(card.country)}/flat/64.png`} className="px-3"/>
                             </div>
-                            <h2 className="text-white pt-1 text-xl">{card.cidade}</h2>
+                            <h2 className="text-white pt-1 text-xl">{card.city}</h2>
                             <p className="text-white text-xl">{card.date}</p>
-                            <Rating value={card.nota} 
+                            <Rating value={card.rating} 
                     read-only="true"
                     style={{color: "white"}}
                     emptyIcon={<StarIcon style={{ opacity: 1 }}/>}/>
-                        <p className="text-sm text-white first-letter:uppercase italic">"{card.descricao}"</p>
+                        <p className="text-sm text-white first-letter:uppercase italic">"{card.description}"</p>
                    
                     </div>
-                ))}
+                )) :  <p className="text-base text-white">Sem registros de viagens para compartilhar </p> }
         </div>
     )
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Card from "../components/Card";
-import { getViagens } from "../servicos/viagens";
 import axios from "axios";
 import { paises } from "../paises";
 import { useParams } from "react-router-dom";
@@ -9,14 +8,18 @@ import { useParams } from "react-router-dom";
 export default function Continente(){
     const {nomeContinente} = useParams()
     const [viagens, setViagens] = useState([]);
-    useEffect(()=>{
-        fetchViagens()
-     }, [])
- 
-     async function fetchViagens(){
-         const viagensDaAPI = await getViagens()
-         setViagens(viagensDaAPI);
-     }
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get('http://localhost:5000/api/form');
+            setViagens(response.data);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
      const [region, setRegion] = useState([])
     useEffect(() => {
@@ -29,8 +32,8 @@ export default function Continente(){
         });
     }, []);
 
-        function obterContinente(pais) {
-            const paisesPortugues = paises.find(item => item.nome === pais)?.nome;
+        function obterContinente(country) {
+            const paisesPortugues = paises.find(item => item.nome === country)?.nome;
             if (!paisesPortugues) return ""
             const continenteInfo = region.find(item => item.translations.pt.toLowerCase() === paisesPortugues.toLowerCase());
             return continenteInfo ? continenteInfo.region : "Continente não encontrado";
@@ -39,8 +42,8 @@ export default function Continente(){
     return (<>
         <Header />
         <div className="bg-blue-950 py-5">
-        {viagens.filter(continente => obterContinente(continente.pais) === nomeContinente).length > 0 ?
-        viagens.filter(continente => obterContinente(continente.pais) === nomeContinente)
+        {viagens.filter(continente => obterContinente(continente.country) === nomeContinente).length > 0 ?
+        viagens.filter(continente => obterContinente(continente.country) === nomeContinente)
         .map((viagem, index) => {
                 return <Card {...viagem} key={index}/>  
             }) : <p className="text-white text-center text-xl">Sem registros de viagem</p>

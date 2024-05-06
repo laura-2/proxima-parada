@@ -3,8 +3,9 @@ import favoritos from "../../assets/fav.svg";
 import perfil from "../../assets/perfil.svg";
 import menu from "../../assets/menu-aberto.png";
 import fechar from "../../assets/remover.png";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios'
 import { AuthContext } from "../../context/auth";
 
 const listItens = [
@@ -17,9 +18,8 @@ const listItens = [
 ];
 
 export default function Header() {
-  const {user} = useContext(AuthContext)
   const [menuOpen, setMenuOpen]= useState(false);
-
+  const {user} = useContext(AuthContext)
   function handleOpenMenu(){
     setMenuOpen(!menuOpen)
 }

@@ -1,15 +1,36 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({children})=> {
-    const [user, setUser]= useState({id: '', nome: '', email: '', senha: '', favorites: [], posts: []});
-
-    useEffect(()=>{
-        const userData = JSON.parse(localStorage.getItem("user_data"));
-        if(userData){
-            setUser(userData)
+    const navigate = useNavigate()
+    const [user, setUser] = useState({
+        name: '', email: '', confirmEmail: '', password: '', confirmPassword: ''})
+    const handleInput = (e)=> {
+        setUser({ ...user, [e.target.name]: e.target.value})
+    }
+    const handleClick = async (e) => {
+        e.preventDefault();
+        try {
+          const response = await axios.post('http://localhost:5000/api/user', user);
+          setUser(response.data);
+          alert("Usuário cadastrado com sucesso!")
+        } catch (error) {
+          console.error('Error submitting form:', error);
         }
-    },[])
+      };
+      const handleLogin = async () => {
+        const { email, password } = user;
+        try {
+          await axios.post('http://localhost:5000/api/login', { email, password });
+          alert('Login bem-sucedido!');
+          navigate('/')
+        } catch (error) {
+          alert(error.response.data.error);
+        }
+      };
+    
     
     const addToFavorites =(viagem)=> {
        setUser(prevUser => {
@@ -26,40 +47,14 @@ export const AuthProvider = ({children})=> {
         return {...prevUser, favorites: newFavorites} 
       });
     }
-      const signin = (email, senha) =>{
-        const userStorage = JSON.parse(localStorage.getItem("users_db"))
-        const hasUser = userStorage?.find((user)=> user.email === email)
 
-        if(hasUser){
-            if(hasUser.senha === senha){
-            localStorage.setItem("user_data", JSON.stringify({email, senha, favorites: hasUser.favorites}))
-            return setUser({email, senha, favorites: hasUser.favorites})
-            
-
-        } else {
-            alert("Senha incorreta!")
-        }
-        } else {
-            alert("usuário não cadastrado")
-        }
-    }
-    const signup = (nome, email, senha) =>{
-        const userStorage = JSON.parse(localStorage.getItem("users_db"))
-        if(userStorage?.find((user)=>user.email === email)){
-            return alert("Já tem uma conta com esse Email");
-
-        } else {
-            const newUser = {nome, email, senha, favorites: []}
-            localStorage.setItem("users_db", JSON.stringify([...(userStorage || []), newUser]));
-            return;
-        }
-    }
 
     const signout = () => { 
         localStorage.removeItem("user_data")
-        setUser({nome: "", email: "", senha: "", favorites: []})
+        setUser({nome: "", email: "", senha: "", favorites: [], posts: []})
     }
-    return <AuthContext.Provider value={{user, signed: !!user.email, signin, signup, signout, addToFavorites, removeFromFavorites}}>
+    return <AuthContext.Provider value={{user, signed: !!user.email, addToFavorites, removeFromFavorites,
+    handleInput, handleClick, handleLogin}}>
         {children}
     </AuthContext.Provider>
 }
