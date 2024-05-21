@@ -1,4 +1,5 @@
 export const paises = [
+    {value: 'N/A', nome: "Selecione um país"},
     {sigla: "AF", nome:"Afeganistão", nomeIngles: "AFGHANISTAN"},
     {sigla: "ZA", nome:"África do Sul", nomeIngles: "SOUTH AFRICA"},
     {sigla: "AL", nome:"Albânia", nomeIngles: "ALBANIA"},

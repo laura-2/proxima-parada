@@ -5,18 +5,18 @@ import StarIcon from '@mui/icons-material/Star';
 import { AuthContext } from "../../context/auth";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
-export default function Card({id, country, city, date, rating, description}){
+export default function Card({_id, country, city, date, rating, description}){
     const {user, addToFavorites, removeFromFavorites} = useContext(AuthContext)
-    const isFavorito = user.favorites.some(favorito => favorito.id === id);
+    const isFavorito = user.favList.some(favorito => favorito._id === _id);
 
     
     return(
             <div className="bg-slate-300 relative rounded-xl m-5 p-2 break-keep text-left md:w-2/3 md:my-5 md:mx-auto">
                     <div>
                 {!isFavorito ? (
-                <FaRegHeart style={{color: "rgb(23 37 84)"}} className="cursor-pointer top-2 absolute right-2" onClick={() => addToFavorites({id, country, city, date, rating, description})}/>
+                <FaRegHeart style={{color: "rgb(23 37 84)"}} className="cursor-pointer top-2 absolute right-2" onClick={() => addToFavorites({_id, country, city, date, rating, description})}/>
             ) : (
-                <FaHeart style={{color: "rgb(23 37 84)"}} className="cursor-pointer top-2 absolute right-2" onClick={() => removeFromFavorites(id)}/>
+                <FaHeart style={{color: "rgb(23 37 84)"}} className="cursor-pointer top-2 absolute right-2" onClick={() => removeFromFavorites(_id)}/>
             )}
                     </div>
                 <div className="flex justify-around items-center">

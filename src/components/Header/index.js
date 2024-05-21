@@ -3,9 +3,8 @@ import favoritos from "../../assets/fav.svg";
 import perfil from "../../assets/perfil.svg";
 import menu from "../../assets/menu-aberto.png";
 import fechar from "../../assets/remover.png";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios'
 import { AuthContext } from "../../context/auth";
 
 const listItens = [
@@ -23,6 +22,7 @@ export default function Header() {
   function handleOpenMenu(){
     setMenuOpen(!menuOpen)
 }
+
   return (
     <header className="flex justify-between items-center bg-white p-1">
       <Link to="/">
@@ -56,7 +56,7 @@ export default function Header() {
       </div>
       <img src={menuOpen ? fechar : menu} onClick={handleOpenMenu} alt="Menu" className="lg:hidden"/>
       <div className={!menuOpen ? "hidden" : "block absolute top-14 bg-white p-2 right-0 w-auto z-10 lg:hidden"}>
-        <Link to={user.email ? "/perfil/signout" : "/perfil/cadastro"} className="text-blue-950 text-xl">
+        <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="text-blue-950 text-xl">
           {user.email ? <p>{user.email}</p> : <p>Perfil</p>}
         </Link>
         <Link to="/favoritos" className="text-xl text-blue-950">

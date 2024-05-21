@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import cadastro from "../../assets/login.png"
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Header from '../../components/Header'
-import {Formik, Form, Field, ErrorMessage} from 'formik'
+import {Formik, Form, Field} from 'formik'
 import { AuthContext } from "../../context/auth";
 
 

@@ -1,13 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import cadastro from "../../assets/login.png"
-import React, { useContext, useState } from "react";
+import React, { useContext} from "react";
 import Header from '../../components/Header'
 import {Formik, Form, Field } from 'formik'
-import axios from 'axios'
 import { AuthContext } from "../../context/auth";
 
 export default function Cadastro(){
-    const {user, handleInput, handleClick} = useContext(AuthContext)
+    const {user, handleInput, handleClick, confirmEmail, confirmPassword, setConfirmEmail, setConfirmPassword} = useContext(AuthContext)
 
     return(
         <>
@@ -24,23 +23,23 @@ export default function Cadastro(){
                                 
                                 </div>
                                 <div className="flex flex-col justify-center items-center">
-                                <span className="text-black text-xl font-bold">E-mail</span>
+                                <span className="text-black text-xl font-bold">E-mail *</span>
                                 <Field type="email"  onChange={handleInput} value={user.email} name="email" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required></Field>
                                 
                                 </div>
                                 <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">Confirmar e-mail *</span>
-                                <Field type="email" onChange={handleInput} value={user.confirmEmail} name="confirmEmail" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required></Field>
+                                <Field type="email" onChange={(e)=>setConfirmEmail(e.target.value)} value={confirmEmail} name="confirmEmail" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required></Field>
                                 
                                 </div>
                                 <div className="flex flex-col justify-center items-center">
-                                <span className="text-black text-xl font-bold">Senha</span>
+                                <span className="text-black text-xl font-bold">Senha *</span>
                                 <Field type="password"  onChange={handleInput} value={user.password} name="password" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required minLength="8"></Field>
                                 
                                 </div>
                                 <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">Confirmar senha *</span>
-                                <Field type="password" onChange={handleInput} value={user.confirmPassword} name="confirmPassword" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required minLength="8"></Field>
+                                <Field type="password" onChange={(e)=> setConfirmPassword(e.target.value)} value={confirmPassword} name="confirmPassword" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required minLength="8"></Field>
                                 
                                 </div>
                                 <div className="flex gap-1 m-5 justify-end">
