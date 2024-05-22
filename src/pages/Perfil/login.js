@@ -33,8 +33,7 @@ export default function Login(){
                                 <div className="flex gap-1 m-5 justify-end">
                             <Link to="/"><button type="button" className="border-1 border-solid border-blue-950
                             bg-blue-950 rounded-xl p-3 text-white">Cancelar</button></Link>
-                            <button type="submit" className="border-1 border-solid rounded-xl border-amber-500 bg-amber-500 py-3 px-5 text-white"
-                            onClick={handleLogin}>Login</button>
+                            <button type="submit" className="border-1 border-solid rounded-xl border-amber-500 bg-amber-500 py-3 px-5 text-white">Login</button>
             
                         </div>
                         <p className="text-end m-3">Ainda não possui conta? <Link to="/perfil/cadastro" className="border-1 border-solid border-white font-bold">Fazer cadastro</Link></p>

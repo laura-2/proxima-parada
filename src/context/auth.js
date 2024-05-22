@@ -21,7 +21,7 @@ export const AuthProvider = ({children})=> {
       description: 'Mínimo 10 caracteres'
     })
     const [user, setUser] = useState({
-        name: '', email: '', password: '', favList: [], posts: []})
+        name: '', email: '', password: ''})
     const [confirmEmail, setConfirmEmail] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [token, setToken] = useState('')
@@ -101,8 +101,9 @@ export const AuthProvider = ({children})=> {
     const handleClick = async (e) => {
         try {
           if(confirmEmail === user.email && confirmPassword === user.password){
-          await axios.post('http://localhost:5000/api/cadastro', user);
+          await axios.post('http://localhost:5000/api/users', user);
           alert("Usuário cadastrado com sucesso!")
+          navigate('/perfil/login')
           } else {
             alert("Preencha os campos corretamente")
           }
@@ -113,8 +114,9 @@ export const AuthProvider = ({children})=> {
       const handleLogin = async () => {
         const {email, password} = user;
         try {
-          const response = await axios.post('http://localhost:5000/api/login', {email: email, password: password} );
-          setToken(response.data.token)
+          await axios.post('http://localhost:5000/api/auth', {email: email, password: password} );
+          localStorage.setItem("token", user)
+          window.location = '/'
           alert('Login bem-sucedido!');
         } catch (error) {
           alert(error.response.data.error);
@@ -148,10 +150,9 @@ export const AuthProvider = ({children})=> {
         }
     }
       const signout = async () => { 
-        const {email, password} = user;
         try{
-            await axios.delete('http://localhost:5000/api/login', { email, password })
-            setUser('')
+            localStorage.removeItem("token")
+            window.location.reload()
             alert('Você saiu da sua conta com sucesso!')
             navigate('/')
         }
