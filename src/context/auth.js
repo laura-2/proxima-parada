@@ -21,7 +21,7 @@ export const AuthProvider = ({children})=> {
       description: 'Mínimo 10 caracteres'
     })
     const [user, setUser] = useState({
-        name: '', email: '', password: ''})
+        name: '', email: '', password: '', favList: []})
     const [confirmEmail, setConfirmEmail] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [token, setToken] = useState('')
@@ -99,9 +99,10 @@ export const AuthProvider = ({children})=> {
       fetchItems();
     }, []);
     const handleClick = async (e) => {
+      const {name, email, password} = user;
         try {
           if(confirmEmail === user.email && confirmPassword === user.password){
-          await axios.post('http://localhost:5000/api/users', user);
+          await axios.post('http://localhost:5000/api/users', name, email, password);
           alert("Usuário cadastrado com sucesso!")
           navigate('/perfil/login')
           } else {
@@ -112,10 +113,10 @@ export const AuthProvider = ({children})=> {
         }
       };
       const handleLogin = async () => {
-        const {email, password} = user;
+        const {email, password, favList} = user;
         try {
           await axios.post('http://localhost:5000/api/auth', {email: email, password: password} );
-          localStorage.setItem("token", user)
+          localStorage.setItem("token", email, favList)
           window.location = '/'
           alert('Login bem-sucedido!');
         } catch (error) {
@@ -126,9 +127,9 @@ export const AuthProvider = ({children})=> {
         try {
           if(user){
           const updatedListFav = [...user.favList, itemId];
-          setUser({ ...user, favList: updatedListFav });
-          await axios.patch('http://localhost:5000/api/login', { email: user.email, favList: updatedListFav });
-          
+          setUser({...user.favList, favList: updatedListFav })
+          localStorage.setItem('token_data', JSON.stringify({...user.favList, favList: updatedListFav }))
+          return {...user.favList, favList: updatedListFav}
           } else {
             alert("Faça login para adicionar aos favoritos")
           }
@@ -143,8 +144,8 @@ export const AuthProvider = ({children})=> {
         try {
           const updatedListFav = user.favList.filter(id => id._id !== itemId);
           setUser({ ...user, favList: updatedListFav });
-          await axios.patch('http://localhost:5000/api/login', { email: user.email, favList: updatedListFav });
-         
+          localStorage.setItem('token_data', JSON.stringify({...user.favList, favList: updatedListFav }))
+          return {...user.favList, favList: updatedListFav}
         } catch (error) {
           console.error('Erro ao adicionar favorito:', error);
         }
@@ -152,9 +153,9 @@ export const AuthProvider = ({children})=> {
       const signout = async () => { 
         try{
             localStorage.removeItem("token")
-            window.location.reload()
+            //window.location.reload()
             alert('Você saiu da sua conta com sucesso!')
-            navigate('/')
+            navigate('/perfil/login')
         }
         catch(error){
             alert(error.response.data.error)
