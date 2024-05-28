@@ -17,12 +17,12 @@ const listItens = [
 ];
 
 export default function Header() {
-  const [menuOpen, setMenuOpen]= useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const {user} = useContext(AuthContext)
+  
   function handleOpenMenu(){
     setMenuOpen(!menuOpen)
 }
-
   return (
     <header className="flex justify-between items-center bg-white p-1">
       <Link to="/">
@@ -50,13 +50,13 @@ export default function Header() {
         <Link to="/favoritos" className="flex gap-2 text-base text-blue-950">
           <img src={favoritos} alt="Logo" />
         </Link>
-        <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="flex text-base text-blue-950">
+        <Link to={user ? '/perfil/signout' : "/perfil/cadastro"} className="flex text-base text-blue-950">
           {user.email ? <p className="text-base">{user.email}</p> : <img src={perfil} alt="Logo" />}
         </Link>
       </div>
       <img src={menuOpen ? fechar : menu} onClick={handleOpenMenu} alt="Menu" className="lg:hidden"/>
       <div className={!menuOpen ? "hidden" : "block absolute top-14 bg-white p-2 right-0 w-auto z-10 lg:hidden"}>
-        <Link to={user ? "/perfil/signout" : "/perfil/cadastro"} className="text-blue-950 text-xl">
+        <Link to={user ? '/perfil/signout' : "/perfil/cadastro"} className="text-blue-950 text-xl">
           {user.email ? <p>{user.email}</p> : <p>Perfil</p>}
         </Link>
         <Link to="/favoritos" className="text-xl text-blue-950">
