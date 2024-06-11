@@ -8,7 +8,7 @@ function Favoritos() {
   return (<>
   <Header/>
   <div className="bg-blue-950 py-5">
-    {user && user.favList.length > 0 ? user.favList.map((fav, index) => {
+    {user !== 'undefined' ? user.favList.map((fav, index) => {
             return <Card {...fav} key={index} />
         }) : <p className="text-white text-center text-xl px-1">Você não adicionou nenhuma viagem aos favoritos!</p>
          }
