@@ -20,14 +20,14 @@ export const AuthProvider = ({children})=> {
       rating: 'Adicione uma classificação',
       description: 'Mínimo 10 caracteres'
     })
-    const [user, setUser] = useState({
-        name: '', email: '', password: '', favList: []})
+    const [user, setUser] = useState(null);
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [favList, setFavList] = useState([])
     const [confirmEmail, setConfirmEmail] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [token, setToken] = useState('')
-    const handleInput = (e)=> {
-        setUser({ ...user, [e.target.name]: e.target.value})
-    }
+
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -53,11 +53,7 @@ export const AuthProvider = ({children})=> {
       e.preventDefault()
       try {
         if(user){
-        await axios.post('http://localhost:5000/api/form', formData, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        await axios.post('http://localhost:5000/api/form', formData);
         alert('Formulário enviado com sucesso e cadastro atualizado!');
         setFormData({
           country: '',
@@ -89,8 +85,6 @@ export const AuthProvider = ({children})=> {
     useEffect(() => {
       async function fetchItems() {
         try {
-          const responseFav = await axios.get(`http://localhost:5000/api/favorites/${user._id}`);
-          setUser(responseFav.data)
           const response = await axios.get('http://localhost:5000/api/form');
           setFormData(response.data);
         } catch (error) {
@@ -103,12 +97,12 @@ export const AuthProvider = ({children})=> {
     const handleClick = async (e) => {
       e.preventDefault()
         try {
-          if(confirmEmail === user.email && confirmPassword === user.password){
+          if(confirmEmail === email && confirmPassword === password){
           await axios.post('http://localhost:5000/api/users', {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            favList: user.favList
+            name: name,
+            email: email,
+            password: password,
+            favList: favList
           });
           alert("Usuário cadastrado com sucesso!")
           navigate('/perfil/login')
@@ -117,30 +111,26 @@ export const AuthProvider = ({children})=> {
           }
         } catch (error) {
           console.error('Error submitting form:', error);
-          console.log(user)
         }
       };
       const handleLogin = async () => {
-        const {email, password} = user;
         try {
-          await axios.post('http://localhost:5000/api/auth', {email: email, password: password} );
-          localStorage.setItem("token", user.email)
+          const response = await axios.post('http://localhost:5000/api/auth', 
+          {email: email, password: password});
+          setUser(response.data.user)
+          localStorage.setItem("token", email)
           alert('Login bem-sucedido!');
+          console.log(name, email, favList, response.data.user)
           navigate('/')
         } catch (error) {
           alert(error.response.data.error);
         }
       };
       const addToFavorites = async (itemId) => {
-        const {favList} = user;
         try {
-          if(user){
-          const updatedListFav = [...user.favList, itemId];
-          setUser({...user.favList, favList: updatedListFav })
+          const updatedListFav = [...favList, itemId];
+          setUser({...favList, favList: updatedListFav })
           await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList: updatedListFav} );
-          } else {
-            alert("Faça login para adicionar aos favoritos")
-          }
         } catch (error) {
           alert('Faça login para adicionar a sua lista de favoritos')
           console.error('Erro ao adicionar favorito:', error);
@@ -151,8 +141,8 @@ export const AuthProvider = ({children})=> {
       const removeFromFavorites = async (itemId)=> {
         const {favList} = user;
         try {
-          const updatedListFav = user.favList.filter(id => id._id !== itemId);
-          setUser({ ...user, favList: updatedListFav });
+          const updatedListFav = favList.filter(id => id._id !== itemId);
+          setUser({ ...favList, favList: updatedListFav });
           await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList: updatedListFav} );
         } catch (error) {
           console.error('Erro ao adicionar favorito:', error);
@@ -161,7 +151,7 @@ export const AuthProvider = ({children})=> {
       const signout = async () => { 
         try{
             localStorage.removeItem("token")
-            setUser('')
+            setUser(user)
             alert('Você saiu da sua conta com sucesso!')
             navigate('/perfil/login')
         }
@@ -170,9 +160,8 @@ export const AuthProvider = ({children})=> {
         }
     }
     
-    return <AuthContext.Provider value={{user, signed: !!user.email, addToFavorites, removeFromFavorites,
-    handleInput, handleClick, handleLogin, signout, handleChange, handleSubmit, formData,setFormData, error
-    , fixError, setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword}}>
+    return <AuthContext.Provider value={{user, signed: !!email, addToFavorites, removeFromFavorites, handleClick, handleLogin, signout, handleChange, handleSubmit, formData,setFormData, error
+    , fixError, setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, favList, email, name, password, setName, setEmail, setPassword}}>
         {children}
     </AuthContext.Provider>
 }

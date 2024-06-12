@@ -5,7 +5,7 @@ import Header from '../../components/Header'
 import { AuthContext } from "../../context/auth";
 
 export default function Cadastro(){
-    const {user, handleInput, handleClick, confirmEmail, confirmPassword, setConfirmEmail, setConfirmPassword} = useContext(AuthContext)
+    const {name, email, password, setName, setEmail, setPassword, handleClick, confirmEmail, confirmPassword, setConfirmEmail, setConfirmPassword} = useContext(AuthContext)
 
     return(
         <>
@@ -17,12 +17,12 @@ export default function Cadastro(){
                     <form className="block" onSubmit={handleClick}>
                     <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">Nome Completo *</span>
-                                <input type="text" onChange={handleInput} value={user.name} name="name" placeholder="João Passos da Silva" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" minLength="4" required/>
+                                <input type="text" onChange={(e)=>setName(e.target.value)} value={name} name="name" placeholder="João Passos da Silva" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" minLength="4" required/>
                                 
                                 </div>
                                 <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">E-mail *</span>
-                                <input type="email"  onChange={handleInput} value={user.email} name="email" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required/>
+                                <input type="email"  onChange={(e)=> setEmail(e.target.value)} value={email} name="email" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required/>
                                 
                                 </div>
                                 <div className="flex flex-col justify-center items-center">
@@ -32,7 +32,7 @@ export default function Cadastro(){
                                 </div>
                                 <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">Senha *</span>
-                                <input type="password"  onChange={handleInput} value={user.password} name="password" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required minLength="8"/>
+                                <input type="password"  onChange={(e)=> setPassword(e.target.value)} value={password} name="password" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required minLength="8"/>
                                 
                                 </div>
                                 <div className="flex flex-col justify-center items-center">

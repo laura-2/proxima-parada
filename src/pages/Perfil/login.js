@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/auth";
 
 
 export default function Login(){
-    const {user, handleInput, handleLogin} = useContext(AuthContext)
+    const {email, password, setEmail, setPassword, handleLogin} = useContext(AuthContext)
 
     return(
         <>
@@ -20,13 +20,13 @@ export default function Login(){
                     <Form className="block">
                                 <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">E-mail</span>
-                                <Field type="email"  onChange={handleInput} value={user.email} name="email" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black py-2 px-5 rounded-xl my-2 w-2/3 md:w-1/3" required></Field>
+                                <Field type="email"  onChange={(e)=> setEmail(e.target.value)} value={email} name="email" placeholder="joaosilva@gmail.com" className="border-2 border-solid border-black py-2 px-5 rounded-xl my-2 w-2/3 md:w-1/3" required></Field>
                                 
                                 </div>
                                 
                                 <div className="flex flex-col justify-center items-center">
                                 <span className="text-black text-xl font-bold">Senha</span>
-                                <Field type="password"  onChange={handleInput} value={user.password} name="password" placeholder="*******" className="border-2 border-solid border-black py-2 px-5 rounded-xl my-2 w-2/3 md:w-1/3" required minLength="8"></Field>
+                                <Field type="password"  onChange={(e)=> setPassword(e.target.value)} value={password} name="password" placeholder="*******" className="border-2 border-solid border-black py-2 px-5 rounded-xl my-2 w-2/3 md:w-1/3" required minLength="8"></Field>
                                 
                                 </div>
                                 
