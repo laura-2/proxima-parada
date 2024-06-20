@@ -6,12 +6,13 @@ import { AuthContext } from "../../context/auth";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 export default function Card({_id, country, city, date, rating, description}){
-    const {favList, addToFavorites, removeFromFavorites} = useContext(AuthContext)
-    const isFavorito = favList.some(favorito => favorito._id === _id);
+    const {user, favList, addToFavorites, removeFromFavorites} = useContext(AuthContext)
+    const isFavorito = Array.isArray(favList) && user.favList.some(favorito => favorito._id === _id);
+    const isFav = Array.isArray(favList) && favList.some(favorito => favorito._id === _id);
     return(
             <div className="bg-slate-300 relative rounded-xl m-5 p-2 break-keep text-left md:w-2/3 md:my-5 md:mx-auto">
                     <div>
-                {!isFavorito ? (
+                {!isFavorito && !isFav ? (
                 <FaRegHeart style={{color: "rgb(23 37 84)"}} className="cursor-pointer top-2 absolute right-2" onClick={() => addToFavorites({_id, country, city, date, rating, description})}/>
             ) : (
                 <FaHeart style={{color: "rgb(23 37 84)"}} className="cursor-pointer top-2 absolute right-2" onClick={() => removeFromFavorites(_id)}/>
