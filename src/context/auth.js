@@ -20,11 +20,9 @@ export const AuthProvider = ({children})=> {
       rating: 'Adicione uma classificação',
       description: 'Mínimo 10 caracteres'
     })
-    const [user, setUser] = useState(null);
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [favList, setFavList] = useState([])
+    const [user, setUser] = useState({
+      name: '', email: '', password: '', favList: []
+    });
     const [confirmEmail, setConfirmEmail] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
@@ -85,12 +83,12 @@ export const AuthProvider = ({children})=> {
     const handleClick = async (e) => {
       e.preventDefault()
         try {
-          if(confirmEmail === email && confirmPassword === password){
+          if(confirmEmail === user.email && confirmPassword === user.password){
           await axios.post('http://localhost:5000/api/users', {
-            name: name,
-            email: email,
-            password: password,
-            favList: favList
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            favList: user.favList
           });
           alert("Usuário cadastrado com sucesso!")
           navigate('/perfil/login')
@@ -104,9 +102,9 @@ export const AuthProvider = ({children})=> {
       const handleLogin = async () => {
         try {
           const response = await axios.post('http://localhost:5000/api/auth', 
-          {email: email, password: password});
+          {email: user.email, password: user.password});
           setUser(response.data.user)  
-          localStorage.setItem("token", email)
+          localStorage.setItem("token", user.email)
           alert('Login bem-sucedido!');
           console.log(response.data)
           navigate('/')
@@ -116,8 +114,10 @@ export const AuthProvider = ({children})=> {
       };
       const addToFavorites = async (itemId) => {
         try {
-          setFavList([...favList, itemId ])
-          await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList} );
+            const updateList = [...user.favList, itemId];
+            setUser({...user.favList, favList: updateList})
+            await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList: updateList});
+            console.log(user)
         } catch (error) {
           alert('Faça login para adicionar a sua lista de favoritos')
           console.error('Erro ao adicionar favorito:', error);
@@ -125,10 +125,12 @@ export const AuthProvider = ({children})=> {
       };
 
 
-      const removeFromFavorites = async (id)=> {
+      const removeFromFavorites = async (itemId)=> {
         try {
-          setFavList(favList.filter(item => item._id !== id));
-          await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList} );
+          const updatedList = user.favList.filter(item => item._id !== itemId);
+          setUser({...user, favList: updatedList});
+          await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList: updatedList});
+          console.log(user)
         } catch (error) {
           console.error('Erro ao adicionar favorito:', error);
         }
@@ -137,7 +139,6 @@ export const AuthProvider = ({children})=> {
         try{
             localStorage.removeItem("token")
             setUser(null)
-            setFavList([])
             alert('Você saiu da sua conta com sucesso!')
             navigate('/perfil/login')
         }
@@ -146,8 +147,8 @@ export const AuthProvider = ({children})=> {
         }
     }
     
-    return <AuthContext.Provider value={{user, signed: !!email, addToFavorites, removeFromFavorites, handleClick, handleLogin, signout, handleChange, handleSubmit, formData,setFormData, error
-    , fixError, setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, favList, email, name, password, setName, setEmail, setPassword}}>
+    return <AuthContext.Provider value={{user, addToFavorites, removeFromFavorites, handleClick, handleLogin, signout, handleChange, handleSubmit, formData,setFormData, error
+    , fixError, setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, setUser}}>
         {children}
     </AuthContext.Provider>
 }
