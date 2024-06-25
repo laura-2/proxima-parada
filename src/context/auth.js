@@ -115,7 +115,7 @@ export const AuthProvider = ({children})=> {
       const addToFavorites = async (itemId) => {
         try {
             const updateList = [...user.favList, itemId];
-            setUser({...user.favList, favList: updateList})
+            setUser({...user, favList: updateList})
             await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList: updateList});
             console.log(user)
         } catch (error) {
@@ -138,7 +138,7 @@ export const AuthProvider = ({children})=> {
       const signout = async () => { 
         try{
             localStorage.removeItem("token")
-            setUser(null)
+            setUser('')
             alert('Você saiu da sua conta com sucesso!')
             navigate('/perfil/login')
         }
