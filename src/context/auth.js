@@ -115,8 +115,8 @@ export const AuthProvider = ({children})=> {
       const addToFavorites = async (itemId) => {
         try {
             const updateList = [...user.favList, itemId];
+            await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList: [itemId]});
             setUser({...user, favList: updateList})
-            await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList: updateList});
             console.log(user)
         } catch (error) {
           alert('Faça login para adicionar a sua lista de favoritos')
@@ -128,9 +128,8 @@ export const AuthProvider = ({children})=> {
       const removeFromFavorites = async (itemId)=> {
         try {
           const updatedList = user.favList.filter(item => item._id !== itemId);
+          await axios.put(`http://localhost:5000/api/favorites/${user._id}`, {favList: [itemId]});
           setUser({...user, favList: updatedList});
-          await axios.patch(`http://localhost:5000/api/favorites/${user._id}`, {favList: updatedList});
-          console.log(user)
         } catch (error) {
           console.error('Erro ao adicionar favorito:', error);
         }
