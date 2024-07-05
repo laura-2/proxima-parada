@@ -14,7 +14,7 @@ export default function Form(){
             <h2 className="pb-5 text-2xl mb-2 text-amber-500 text-center font-bold">Compartilhe sua experiência também!</h2>
             <div className="block text-center my-3">
             <select type="select" className="text-sm font-thin block bg-transparent border-2 rounded-2xl border-white p-3
-         w-2/3 text-white self-center my-5 m-auto" placeholder="Selecione o país"
+         w-2/3 text-white self-center my-5 m-auto md:w-4/12" placeholder="Selecione o país"
              name="country" value={formData.country} onChange={handleChange}>
                 {paises.map(country => (
                     <option key={country.nome} value={country.nome} 
@@ -25,11 +25,11 @@ export default function Form(){
             </select>
             <p className="text-amber-500 m-2">{error.country}</p>
             <input type="text" className="text-sm block border-2 bg-transparent rounded-2xl border-white p-3
-         w-2/3 text-white self-center my-5 m-auto" placeholder="Digite o nome da cidade"
+         w-2/3 text-white self-center my-5 m-auto md:w-4/12" placeholder="Digite o nome da cidade"
              name="city" value={formData.city} onChange={handleChange}/>
              <p className="text-amber-500 m-2">{error.city}</p>
             <input type="date" placeholder="dd/mm/aaaa" className="text-sm font-thin block bg-transparent rounded-2xl border-white p-3
-         w-2/3 text-white self-center my-5 m-auto border-2 calendar-picker-indicator:hidden appearance-none" name="date" 
+         w-2/3 text-white self-center my-5 m-auto border-2 calendar-picker-indicator:hidden appearance-none md:w-4/12" name="date" 
          value={formData.date} onChange={handleChange}/>
          <p className="text-amber-500 m-2">{error.date}</p>
          <div className="flex flex-col w-2/3 justify-center items-center my-5 mx-auto">
@@ -54,7 +54,7 @@ export default function Form(){
                             <p className="text-amber-500 m-2">{error.rating}</p>
             
          </div>
-            <textarea className="font-thin block border-2 bg-transparent rounded-2xl w-2/3 h-40 p-3 m-auto text-white placeholder:bg-transparent text-white overflow-y-hidden" placeholder="Conte com mais detalhes sua experiência, por exemplo, o que mais gostou, dicas, preços..."
+            <textarea className="font-thin block border-2 bg-transparent rounded-2xl w-2/3 h-40 p-3 m-auto text-white placeholder:bg-transparent text-white overflow-y-hidden md:w-4/12" placeholder="Conte com mais detalhes sua experiência, por exemplo, o que mais gostou, dicas, preços..."
              name="description" type="text" onChange={handleChange} value={formData.description}
              ></textarea>
              {error.description &&<p className="text-amber-500 m-2">{error.description}</p>}

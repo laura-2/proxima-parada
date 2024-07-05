@@ -3,9 +3,10 @@ import cadastro from "../../assets/login.png"
 import React, { useContext} from "react";
 import Header from '../../components/Header'
 import { AuthContext } from "../../context/auth";
+import Modal from "../../components/Modal";
 
 export default function Cadastro(){
-    const {user, setUser, handleClick, confirmEmail, confirmPassword, setConfirmEmail, setConfirmPassword} = useContext(AuthContext)
+    const {user, setUser, handleClick, confirmEmail, confirmPassword, setConfirmEmail, setConfirmPassword, close} = useContext(AuthContext)
 
 
     const handleChange = (e) => {
@@ -47,8 +48,9 @@ export default function Cadastro(){
                                 <div className="flex gap-1 m-5 justify-end">
                             <Link to="/"><button type="button" className="border-1 border-solid border-blue-950
                             bg-blue-950 rounded-xl p-3 text-white">Cancelar</button></Link>
-                            <button type="submit" className="border-1 border-solid rounded-xl border-amber-500 bg-amber-500 p-3 text-white">Cadastrar</button>
-            
+                            <button type="submit" className="border-1 border-solid rounded-xl border-amber-500 bg-amber-500 p-3 text-white"
+                            >Cadastrar</button>
+                            {!close && <Modal text="Usuário cadastrado com sucesso!"/>}
                         </div>
                         <p className="text-end m-3">Já possui conta? <Link to="/perfil/login" className="border-1 border-solid border-white font-bold">Entrar</Link></p>
                     </form>

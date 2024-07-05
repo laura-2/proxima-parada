@@ -25,7 +25,9 @@ export const AuthProvider = ({children})=> {
     });
     const [confirmEmail, setConfirmEmail] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [close, setClose] = useState(true)
 
+    
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -90,10 +92,9 @@ export const AuthProvider = ({children})=> {
             password: user.password,
             favList: user.favList
           });
-          alert("Usuário cadastrado com sucesso!")
-          navigate('/perfil/login')
+          setClose(!close)
           } else {
-            alert("Preencha os campos corretamente")
+            setClose(close)
           }
         } catch (error) {
           console.error('Error submitting form:', error);
@@ -103,13 +104,11 @@ export const AuthProvider = ({children})=> {
         try {
           const response = await axios.post('http://localhost:5000/api/auth', 
           {email: user.email, password: user.password});
-          setUser(response.data.user)  
-          localStorage.setItem("token", user.email)
-          alert('Login bem-sucedido!');
-          console.log(response.data)
-          navigate('/')
+          setUser(response.data)  
+          localStorage.setItem("token", user.email);
+          setClose(!close)
         } catch (error) {
-          alert(error.response.data.error);
+          setClose(close)
         }
       };
       const addToFavorites = async (itemId) => {
@@ -147,7 +146,7 @@ export const AuthProvider = ({children})=> {
     }
     
     return <AuthContext.Provider value={{user, addToFavorites, removeFromFavorites, handleClick, handleLogin, signout, handleChange, handleSubmit, formData,setFormData, error
-    , fixError, setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, setUser}}>
+    , fixError, setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, setUser, close, setClose}}>
         {children}
     </AuthContext.Provider>
 }

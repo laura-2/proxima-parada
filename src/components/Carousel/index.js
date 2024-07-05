@@ -106,26 +106,27 @@ export default function Carousel(){
 
             <h2 className="text-center bg-white text-amber-500 font-bold uppercase text-3xl my-5">Sugestões e depoimentos</h2>
           
-            
+            <div className="md:grid grid-cols-2 grid-rows-2">
                 {viagens.length > 0 ? viagens
                 .slice(1, 5)
                 .map((card, index) => (
-                    <div className="bg-blue-950 shadow-2xl rounded-lg my-2 mx-5 p-3 text-left md:w-2/3 md:my-5 md:mx-auto" key={index}>
+                    <div className="bg-blue-950 shadow-2xl rounded-lg my-2 mx-5 p-3 text-left md:m-3" key={index}>
                     
                         <div className="flex justify-center items-center">
                             <h3 className="text-amber-500 font-bold text-3xl text-left">{card.country}</h3>
                             <img alt="paises" src={`https://flagsapi.com/${getCountryFlagUrl(card.country)}/flat/64.png`} className="px-3"/>
                             </div>
-                            <h2 className="text-white pt-1 text-xl">{card.city}</h2>
+                            <h2 className="text-white pt-1 text-xl break-all">{card.city}</h2>
                             <p className="text-white text-xl">{card.date}</p>
                             <Rating value={card.rating} 
                     read-only="true"
                     style={{color: "white"}}
                     emptyIcon={<StarIcon style={{ opacity: 1 }}/>}/>
-                        <p className="text-sm text-white first-letter:uppercase italic">"{card.description}"</p>
+                        <p className="text-sm text-white break-all first-letter:uppercase italic">"{card.description}"</p>
                    
                     </div>
                 )) :  <p className="text-base text-white">Sem registros de viagens para compartilhar </p> }
+                </div>
         </div>
     )
 }
