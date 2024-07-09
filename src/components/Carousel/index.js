@@ -83,12 +83,13 @@ export default function Carousel(){
                         ))}
                     </div>
                 </Swiper>
+                <h3 className="text-center text-amber-500 font-bold text-2xl my-2">Talvez você se interesse por visitar...</h3>
+                <div className="md:grid grid-cols-2 grid-rows-1">
                 {viagens.length > 0 ? viagens
-                .slice(0,1)
+                .slice(0, 2)
                 .map((card, index) => (
-                <div className="bg-blue-950 rounded-lg my-1 mx-5 p-3 text-left md:w-2/3 md:my-0 md:mx-auto" key={index}>
+                <div className="bg-blue-950 rounded-lg my-1 mx-5 p-3 text-left md:m-3" key={index}>
                     <div>
-                            <h3 className="text-center text-amber-500 font-bold text-2xl break-keep">Talvez você se interesse por visitar...</h3>
                             <div className="flex justify-center items-center">
                             <h2 className="text-white text-xl font-bold">{card.city} - {card.country}</h2>
                             <img alt="paises" src={`https://flagsapi.com/${getCountryFlagUrl(card.country)}`} className="px-3"/>
@@ -103,7 +104,7 @@ export default function Carousel(){
                 </div>
                 )): <p className="text-base text-white">Sem registros de viagens para compartilhar </p>}
       
-
+                </div>
             <h2 className="text-center bg-white text-amber-500 font-bold uppercase text-3xl my-5">Sugestões e depoimentos</h2>
           
             <div className="md:grid grid-cols-2 grid-rows-2">

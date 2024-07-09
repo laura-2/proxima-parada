@@ -9,7 +9,7 @@ export default function Card({_id, country, city, date, rating, description}){
     const {user, addToFavorites, removeFromFavorites} = useContext(AuthContext)
     const isFavorito = Array.isArray(user.favList) && user.favList.some(favorito => favorito._id === _id);
     return(
-            <div className="bg-slate-300 relative rounded-xl m-5 p-2 break-keep text-left md:w-2/3 md:my-5 md:mx-auto">
+            <div className="bg-slate-300 relative rounded-xl m-5 p-2 break-keep text-left md:w-2/4 md:mx-auto">
                     <div>
                 {!isFavorito ? (
                 <FaRegHeart style={{color: "rgb(23 37 84)"}} className="cursor-pointer top-2 absolute right-2" onClick={() => addToFavorites({_id, country, city, date, rating, description})}/>

@@ -16,6 +16,8 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
     box-sizing: border-box;
     -youbkit-touch-callout: none;
     -youbkit-user-select: none; 
@@ -25,6 +27,19 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     text-wrap: wrap;
 }
+    body::-webkit-scrollbar {
+      width: 5px;             
+    }
+
+    body::-webkit-scrollbar-track {
+      background: transparent;      
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background-color: #172554;   
+      border-radius: 20px;    
+      border: 3px solid #172554;  
+    }
     li{
       list-style: none;
     }

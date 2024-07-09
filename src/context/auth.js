@@ -13,13 +13,7 @@ export const AuthProvider = ({children})=> {
       rating: '',
       description: ''
     });
-    const [error, setError] = useState({
-      country: 'Selecione o país',
-      city: 'Mínimo 2 caracteres',
-      date: 'A data deve ser anterior à data atual',
-      rating: 'Adicione uma classificação',
-      description: 'Mínimo 10 caracteres'
-    })
+    const [error, setError] = useState('')
     const [user, setUser] = useState({
       name: '', email: '', password: '', favList: []
     });
@@ -32,41 +26,33 @@ export const AuthProvider = ({children})=> {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
     
-    function fixError(){
-      const {country, city, date, rating, description} = formData;
-      if (!country){
-        setError(error.country)
-      } else if (!city){
-        setError(error.city)
-      } else if (isFuture(date)){
-        setError(error.date)
-      } else if (!rating){
-        setError(error.rating)
-      } else if (!description){
-        setError(error.description) 
-      } else {
-        alert('Por favor, corrija os erros no formulário antes de enviar.');
-        return;
-      }
-    }
     const handleSubmit = async (e) => {
       e.preventDefault()
-      try {
-        if(user){
-        await axios.post('http://localhost:5000/api/form', formData);
-        alert('Formulário enviado com sucesso e cadastro atualizado!');
-        setFormData({
-          country: '',
-          city: '',
-          date: '',
-          rating: '',
-          description: ''
-        });
+      const {country, city, date, rating, description} = formData;
+      if (!country){
+        setError('Selecione um país')
+      } else if (!city){
+        setError('Cidade deve ter no mínimo 2 caracteres')
+      } else if (isFuture(date)){
+        setError('A data deve ser anterior à data atual')
+      } else if (!rating){
+        setError('Adicione uma classificação')
+      } else if (!description){
+        setError('Adicione um comentário com no mínimo 10 caracteres') 
       } else {
-        alert("Faça login para compartilhar suas viagens")
-      }
-      } catch (error) {
-        console.error('Erro ao enviar formulário e/ou atualizar cadastro:', error);
+        try {
+          await axios.post('http://localhost:5000/api/form', formData);
+          alert('Formulário enviado com sucesso e cadastro atualizado!');
+          setFormData({
+            country: '',
+            city: '',
+            date: '',
+            rating: '',
+            description: ''
+          });
+        } catch (error) {
+          console.error('Erro ao enviar formulário e/ou atualizar cadastro:', error);
+        }
       }
     };
     
@@ -146,7 +132,7 @@ export const AuthProvider = ({children})=> {
     }
     
     return <AuthContext.Provider value={{user, addToFavorites, removeFromFavorites, handleClick, handleLogin, signout, handleChange, handleSubmit, formData,setFormData, error
-    , fixError, setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, setUser, close, setClose}}>
+    , setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, setUser, close, setClose}}>
         {children}
     </AuthContext.Provider>
 }
