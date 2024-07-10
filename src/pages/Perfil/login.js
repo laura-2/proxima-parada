@@ -4,11 +4,10 @@ import React, { useContext } from "react";
 import Header from '../../components/Header'
 import {Formik, Form, Field} from 'formik'
 import { AuthContext } from "../../context/auth";
-import Modal from "../../components/Modal";
 
 
 export default function Login(){
-    const {user, setUser, handleLogin, close} = useContext(AuthContext)
+    const {user, setUser, handleLogin, msg} = useContext(AuthContext)
     const handleChange = (e) => {
         setUser({...user, [e.target.name]: e.target.value})
     }
@@ -32,13 +31,13 @@ export default function Login(){
                                 <Field type="password"  onChange={handleChange} value={user.password} name="password" placeholder="*******" className="border-2 border-solid border-black py-2 px-5 rounded-xl my-2 w-2/3 md:w-1/3" required minLength="8"></Field>
                                 
                                 </div>
-                                
+                                <p className="text-amber-500 my-2 text-center">{msg}</p>
                                 <div className="flex gap-1 m-5 justify-end">
                             <Link to="/"><button type="button" className="border-1 border-solid border-blue-950
                             bg-blue-950 rounded-xl p-3 text-white">Cancelar</button></Link>
                             <button type="submit" className="border-1 border-solid rounded-xl border-amber-500 bg-amber-500 py-3 px-5 text-white"
                             >Login</button>
-                            {!close && <Modal text="Login bem-sucedido"/>}
+                            
                         </div>
                         <p className="text-end m-3">Ainda não possui conta? <Link to="/perfil/cadastro" className="border-1 border-solid border-white font-bold">Fazer cadastro</Link></p>
                     </Form>

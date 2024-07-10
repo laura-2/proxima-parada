@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import Header from '../../components/Header'
 import { AuthContext } from "../../context/auth";
-import Card from "../../components/Card";
-
 
 export default function Signout(){
-    const {signout, user} = useContext(AuthContext)
+    const {signout, msg} = useContext(AuthContext)
     return(
         <>
         <Header/>

@@ -14,14 +14,13 @@ export const AuthProvider = ({children})=> {
       description: ''
     });
     const [error, setError] = useState('')
+    const [msg, setMsg] = useState('')
     const [user, setUser] = useState({
       name: '', email: '', password: '', favList: []
     });
     const [confirmEmail, setConfirmEmail] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [close, setClose] = useState(true)
 
-    
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -31,18 +30,18 @@ export const AuthProvider = ({children})=> {
       const {country, city, date, rating, description} = formData;
       if (!country){
         setError('Selecione um país')
-      } else if (!city){
-        setError('Cidade deve ter no mínimo 2 caracteres')
-      } else if (isFuture(date)){
+      } else if (!city || city.length < 3){
+        setError('Cidade deve ter no mínimo 3 caracteres')
+      } else if (!date || isFuture(date)){
         setError('A data deve ser anterior à data atual')
       } else if (!rating){
         setError('Adicione uma classificação')
-      } else if (!description){
+      } else if (!description || description.length < 10){
         setError('Adicione um comentário com no mínimo 10 caracteres') 
       } else {
         try {
           await axios.post('http://localhost:5000/api/form', formData);
-          alert('Formulário enviado com sucesso e cadastro atualizado!');
+          setMsg('Sua experiência foi compartilhada com sucesso.')
           setFormData({
             country: '',
             city: '',
@@ -50,7 +49,9 @@ export const AuthProvider = ({children})=> {
             rating: '',
             description: ''
           });
+          setError('')
         } catch (error) {
+          setError('Confira todos os campos novamente antes de compartilhar')
           console.error('Erro ao enviar formulário e/ou atualizar cadastro:', error);
         }
       }
@@ -78,9 +79,9 @@ export const AuthProvider = ({children})=> {
             password: user.password,
             favList: user.favList
           });
-          setClose(!close)
+          setMsg('Usuário cadastrado com sucesso!')
           } else {
-            setClose(close)
+            setMsg('Preencha os campos corretamente.')
           }
         } catch (error) {
           console.error('Error submitting form:', error);
@@ -90,11 +91,12 @@ export const AuthProvider = ({children})=> {
         try {
           const response = await axios.post('http://localhost:5000/api/auth', 
           {email: user.email, password: user.password});
-          setUser(response.data)  
+          setUser(response.data.user)  
           localStorage.setItem("token", user.email);
-          setClose(!close)
+          setMsg('Login bem-sucedido')
+          console.log(user)
         } catch (error) {
-          setClose(close)
+          setMsg('Preencha os campos corretamente.')
         }
       };
       const addToFavorites = async (itemId) => {
@@ -123,7 +125,7 @@ export const AuthProvider = ({children})=> {
         try{
             localStorage.removeItem("token")
             setUser('')
-            alert('Você saiu da sua conta com sucesso!')
+            setMsg('Você saiu da sua conta com sucesso!')
             navigate('/perfil/login')
         }
         catch(error){
@@ -132,7 +134,7 @@ export const AuthProvider = ({children})=> {
     }
     
     return <AuthContext.Provider value={{user, addToFavorites, removeFromFavorites, handleClick, handleLogin, signout, handleChange, handleSubmit, formData,setFormData, error
-    , setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, setUser, close, setClose}}>
+    , setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, setUser, msg, setMsg}}>
         {children}
     </AuthContext.Provider>
 }

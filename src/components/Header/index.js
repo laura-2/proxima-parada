@@ -3,6 +3,7 @@ import favoritos from "../../assets/fav.svg";
 import perfil from "../../assets/perfil.svg";
 import menu from "../../assets/menu-aberto.png";
 import fechar from "../../assets/remover.png";
+import sair from "../../assets/logout.png"
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/auth";
@@ -24,7 +25,7 @@ export default function Header() {
     setMenuOpen(!menuOpen)
 }
   return (
-    <header className="flex justify-between items-center bg-white p-1">
+    <header className="flex justify-between items-center bg-white py-1 px-5">
       <Link to="/">
         <div className="flex gap-2 items-center">
           <img src={logo} alt="Logo" className="w-12 h-12" />

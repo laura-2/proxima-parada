@@ -3,10 +3,9 @@ import cadastro from "../../assets/login.png"
 import React, { useContext} from "react";
 import Header from '../../components/Header'
 import { AuthContext } from "../../context/auth";
-import Modal from "../../components/Modal";
 
 export default function Cadastro(){
-    const {user, setUser, handleClick, confirmEmail, confirmPassword, setConfirmEmail, setConfirmPassword, close} = useContext(AuthContext)
+    const {user, setUser, handleClick, confirmEmail, confirmPassword, setConfirmEmail, setConfirmPassword, msg} = useContext(AuthContext)
 
 
     const handleChange = (e) => {
@@ -45,12 +44,13 @@ export default function Cadastro(){
                                 <input type="password" onChange={(e)=> setConfirmPassword(e.target.value)} value={confirmPassword} name="confirmPassword" placeholder="*******" className="border-2 border-solid border-black p-2 rounded-xl my-2 w-2/3 md:w-1/3" required minLength="8"/>
                                 
                                 </div>
+                                <p className="text-amber-500 my-2 text-center">{msg}</p>
                                 <div className="flex gap-1 m-5 justify-end">
                             <Link to="/"><button type="button" className="border-1 border-solid border-blue-950
                             bg-blue-950 rounded-xl p-3 text-white">Cancelar</button></Link>
                             <button type="submit" className="border-1 border-solid rounded-xl border-amber-500 bg-amber-500 p-3 text-white"
                             >Cadastrar</button>
-                            {!close && <Modal text="Usuário cadastrado com sucesso!"/>}
+                            
                         </div>
                         <p className="text-end m-3">Já possui conta? <Link to="/perfil/login" className="border-1 border-solid border-white font-bold">Entrar</Link></p>
                     </form>
