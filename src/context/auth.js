@@ -15,6 +15,8 @@ export const AuthProvider = ({children})=> {
     });
     const [error, setError] = useState('')
     const [msg, setMsg] = useState('')
+    const [cadastroMsg, setCadastroMsg] = useState('')
+    const [loginMsg, setLoginMsg] = useState('')
     const [user, setUser] = useState({
       name: '', email: '', password: '', favList: []
     });
@@ -79,9 +81,9 @@ export const AuthProvider = ({children})=> {
             password: user.password,
             favList: user.favList
           });
-          setMsg('Usuário cadastrado com sucesso!')
+          setCadastroMsg('Usuário cadastrado com sucesso!')
           } else {
-            setMsg('Preencha os campos corretamente.')
+            setCadastroMsg('Preencha os campos corretamente.')
           }
         } catch (error) {
           console.error('Error submitting form:', error);
@@ -93,10 +95,10 @@ export const AuthProvider = ({children})=> {
           {email: user.email, password: user.password});
           setUser(response.data.user)  
           localStorage.setItem("token", user.email);
-          setMsg('Login bem-sucedido')
-          console.log(user)
+          setLoginMsg('Login bem-sucedido')
+          console.log(response.data)
         } catch (error) {
-          setMsg('Preencha os campos corretamente.')
+          setLoginMsg('Preencha os campos corretamente.')
         }
       };
       const addToFavorites = async (itemId) => {
@@ -125,7 +127,9 @@ export const AuthProvider = ({children})=> {
         try{
             localStorage.removeItem("token")
             setUser('')
-            setMsg('Você saiu da sua conta com sucesso!')
+            setCadastroMsg('')
+            setLoginMsg('')
+            setMsg('')
             navigate('/perfil/login')
         }
         catch(error){
@@ -134,7 +138,7 @@ export const AuthProvider = ({children})=> {
     }
     
     return <AuthContext.Provider value={{user, addToFavorites, removeFromFavorites, handleClick, handleLogin, signout, handleChange, handleSubmit, formData,setFormData, error
-    , setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, setUser, msg, setMsg}}>
+    , setConfirmEmail, setConfirmPassword, confirmEmail, confirmPassword, setUser, msg, cadastroMsg, loginMsg}}>
         {children}
     </AuthContext.Provider>
 }

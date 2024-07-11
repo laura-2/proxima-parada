@@ -3,7 +3,6 @@ import favoritos from "../../assets/fav.svg";
 import perfil from "../../assets/perfil.svg";
 import menu from "../../assets/menu-aberto.png";
 import fechar from "../../assets/remover.png";
-import sair from "../../assets/logout.png"
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/auth";

@@ -3,7 +3,7 @@ import Header from '../../components/Header'
 import { AuthContext } from "../../context/auth";
 
 export default function Signout(){
-    const {signout, msg} = useContext(AuthContext)
+    const {signout} = useContext(AuthContext)
     return(
         <>
         <Header/>
