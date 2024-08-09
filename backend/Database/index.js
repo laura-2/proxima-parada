@@ -5,8 +5,9 @@ module.exports = () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
+  const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/proximaParada';
   try{
-    mongoose.connect('mongodb://localhost:27017/proximaParada', connectionParams)
+    mongoose.connect(mongoUri, connectionParams)
     console.log('Connected to mongoDB database')
   } catch(error){
     console.log('Not connected' + error)
